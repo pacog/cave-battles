@@ -1,1 +1,10 @@
-battle-view.tpl.html
+<div class='battle-view'>
+
+    <div class='node' ng-style='{"left": node.position[0] + "%", "top": node.position[1] + "%" }' ng-repeat='node in battleInfo.nodes'></div>
+
+    <div ng-repeat='player in battleInfo.players'>
+        <div class='army' ng-style='{"left": battleInfo.nodes[army.node].position[0] + "%", "top": battleInfo.nodes[army.node].position[1] + "%" }' ng-repeat='army in player.armies'></div>
+    </div>
+    
+
+</div>
