@@ -3,7 +3,8 @@
 angular.module('caveBattles.battle-view', [
     'caveBattles.battle',
     'caveBattles.battle-view.node',
-    'caveBattles.battle-view.tunnel'
+    'caveBattles.battle-view.tunnel',
+    'caveBattles.battle-view.army'
 ])
 
 .directive('battleView', function (Battle) {

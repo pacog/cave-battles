@@ -1,10 +1,10 @@
 'use strict';
 (function() {
-    angular.module('caveBattles.player', ['ngLodash', 'caveBattles.utils.id-generator', 'caveBattles.army'])
+    angular.module('caveBattles.player', ['ngLodash', 'caveBattles.utils.id-generator'])
 
-    .factory('Player', ['lodash', 'IdGenerator', 'Army',
+    .factory('Player', ['lodash', 'IdGenerator',
 
-        function(_, IdGenerator, Army) {
+        function(_, IdGenerator) {
 
             var PlayerClass = function(options) {
                 this.init(options);
@@ -14,11 +14,6 @@
 
                 init: function(options) {
                     this.id = IdGenerator.getNewId();
-                    this.armies = [];
-                    this.armies.push(new Army({
-                        node: options.initialNode,
-                        force: options.initialForce
-                    }));
                 }
             };
 

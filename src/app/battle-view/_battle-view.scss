@@ -4,18 +4,3 @@
     height: 500px;
     position: relative;
 }
-
-$army-size: 40px;
-.army {
-    position: absolute;
-    height: $army-size;
-    width: $army-size;
-    margin-left: -$army-size/2;
-    margin-top: -$army-size/2;
-    border-radius: 50%;
-    background: blue;
-    z-index: 20;
-    text-align: center;
-    line-height: $army-size;
-    vertical-align: middle;
-}

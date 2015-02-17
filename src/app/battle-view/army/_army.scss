@@ -1,0 +1,17 @@
+.army {
+
+}
+
+.army {
+    position: absolute;
+    height: $army-size;
+    width: $army-size;
+    margin-left: -$army-size/2;
+    margin-top: -$army-size/2;
+    border-radius: 50%;
+    background: $army-color;
+    z-index: $army-z-index;
+    text-align: center;
+    line-height: $army-size;
+    vertical-align: middle;
+}

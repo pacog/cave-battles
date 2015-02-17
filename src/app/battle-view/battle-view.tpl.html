@@ -3,6 +3,10 @@
         <node node-info='node'></node>
     </div>
     <div ng-repeat='tunnel in battleInfo.tunnels'>
-        <tunnel tunnel-info='tunnel' nodes-info='battleInfo.nodes'></tunnel>
+        <tunnel tunnel-info='tunnel'></tunnel>
+    </div>
+
+    <div ng-repeat='army in battleInfo.armies'>
+        <army army-info='army'></army>
     </div>
 </div>

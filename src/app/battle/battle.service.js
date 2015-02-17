@@ -1,10 +1,10 @@
 'use strict';
 (function() {
-    angular.module('caveBattles.battle', ['ngLodash', 'caveBattles.player', 'caveBattles.tunnel'])
+    angular.module('caveBattles.battle', ['ngLodash', 'caveBattles.player', 'caveBattles.tunnel', 'caveBattles.army'])
 
-    .service('Battle', ['lodash', 'Player', 'Tunnel',
+    .service('Battle', ['lodash', 'Player', 'Tunnel', 'Army',
 
-        function(_, Player, Tunnel) {
+        function(_, Player, Tunnel, Army) {
 
             var options;
             var battleInfoSubscribers = [];
@@ -24,8 +24,17 @@
                 });
 
                 battleInfo.players = [];
+                battleInfo.armies = [];
                 angular.forEach(options.map.players, function(playerOptions) {
-                    battleInfo.players.push(new Player(playerOptions));
+                    var player = new Player(playerOptions);
+
+                    battleInfo.players.push(player);
+
+                    battleInfo.armies.push(new Army({
+                        node: battleInfo.nodes[playerOptions.initialNode],
+                        force: playerOptions.initialForce,
+                        player: player
+                    }));
                 });
 
                 battleInfo.tunnels = [];

@@ -1,13 +1,14 @@
 'use strict';
 (function() {
-    angular.module('caveBattles.army', ['ngLodash'])
+    angular.module('caveBattles.army', [])
 
-    .factory('Army', ['lodash',
+    .factory('Army', [
 
-        function(_) {
+        function() {
 
             var ArmyClass = function(options) {
-                _.assign(this, options);
+                this.player = options.player;
+                this.position = angular.copy(options.node.position);
             };
 
             return ArmyClass;
