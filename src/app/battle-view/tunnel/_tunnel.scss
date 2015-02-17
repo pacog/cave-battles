@@ -1,0 +1,7 @@
+.tunnel {
+    background-color: $tunnel-color;
+    height: $tunnel-width;
+    margin-top: -($tunnel-width/2);
+    z-index: $tunnel-z-index;
+    position: absolute;
+}

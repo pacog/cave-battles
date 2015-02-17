@@ -1,21 +1,8 @@
 .battle-view {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    background: #ccc;
-}
-
-
-$node-size: 50px;
-.node {
-    position: absolute;
-    height: $node-size;
-    width: $node-size;
-    margin-left: -$node-size/2;
-    margin-top: -$node-size/2;
-    border-radius: 50%;
-    background: red;
-    z-index: 10;
+    background: $background-color;
+    width: 500px;
+    height: 500px;
+    position: relative;
 }
 
 $army-size: 40px;

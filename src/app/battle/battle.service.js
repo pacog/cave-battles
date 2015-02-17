@@ -1,10 +1,10 @@
 'use strict';
 (function() {
-    angular.module('caveBattles.battle', ['ngLodash', 'caveBattles.player'])
+    angular.module('caveBattles.battle', ['ngLodash', 'caveBattles.player', 'caveBattles.tunnel'])
 
-    .service('Battle', ['lodash', 'Player',
+    .service('Battle', ['lodash', 'Player', 'Tunnel',
 
-        function(_, Player) {
+        function(_, Player, Tunnel) {
 
             var options;
             var battleInfoSubscribers = [];
@@ -26,6 +26,11 @@
                 battleInfo.players = [];
                 angular.forEach(options.map.players, function(playerOptions) {
                     battleInfo.players.push(new Player(playerOptions));
+                });
+
+                battleInfo.tunnels = [];
+                angular.forEach(options.map.tunnels, function(tunnelOptions) {
+                    battleInfo.tunnels.push(new Tunnel(tunnelOptions, battleInfo.nodes));
                 });
 
                 notifyBattleInfoChanged(battleInfo);

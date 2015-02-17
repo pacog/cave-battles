@@ -1,11 +1,28 @@
 'use strict';
 
-angular.module('caveBattles.battle-view', ['caveBattles.battle-view.controller'])
+angular.module('caveBattles.battle-view', [
+    'caveBattles.battle',
+    'caveBattles.battle-view.node',
+    'caveBattles.battle-view.tunnel'
+])
 
-.directive('battleView', function () {
+.directive('battleView', function (Battle) {
+
     return {
         restrict: 'E',
         templateUrl: 'app/battle-view/battle-view.tpl.html',
-        controller: 'BattleViewCtrl'
+        replace: true,
+        link: function(scope) {
+
+            var init = function() {
+                Battle.subscribeToChangeInBattleInfo(onBattleInfoChanged);
+            };
+
+            var onBattleInfoChanged = function(newBattleInfo) {
+                scope.battleInfo = newBattleInfo;
+            };
+
+            init();
+        }
     };
 });

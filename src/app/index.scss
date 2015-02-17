@@ -1,4 +1,7 @@
 @import "core-styles/reset";
 @import "core-styles/base";
+@import "core-styles/var";
 
 @import "battle-view/battle-view";
+@import "battle-view/node/node";
+@import "battle-view/tunnel/tunnel";

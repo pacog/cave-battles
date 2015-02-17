@@ -1,0 +1,10 @@
+.node {
+    background: $node-color;
+    height: $node-size;
+    width: $node-size;
+    position: absolute;
+    margin-left: -$node-size/2;
+    margin-top: -$node-size/2;
+    border-radius: 50%;
+    z-index: $node-z-index;
+}
