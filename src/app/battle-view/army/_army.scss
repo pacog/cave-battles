@@ -1,8 +1,4 @@
 .army {
-
-}
-
-.army {
     position: absolute;
     height: $army-size;
     width: $army-size;
@@ -14,4 +10,17 @@
     text-align: center;
     line-height: $army-size;
     vertical-align: middle;
+    cursor: pointer;
+
+    &:hover {
+        border: 2px dashed white;
+    }
+
+    &.selected {
+        border: 2px solid white;
+    }
+
+    &.selected:hover {
+        background: lighten($army-color, 25);
+    }
 }

@@ -1,1 +1,6 @@
-<div class='army' ng-style='{"top": armyInfo.position.y + "%", "left": armyInfo.position.x + "%"}'></div>
+<div class='army'
+     ng-class='{
+        "selected": armyInfo.selected
+     }'
+     ng-style='{"top": armyInfo.position.y + "%", "left": armyInfo.position.x + "%"}'
+     ng-click='armyClicked()'></div>

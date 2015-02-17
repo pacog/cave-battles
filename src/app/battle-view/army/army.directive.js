@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('caveBattles.battle-view.army', [])
+angular.module('caveBattles.battle-view.army', ['caveBattles.battle-view.army-controller'])
 
 .directive('army', function () {
 
@@ -10,6 +10,7 @@ angular.module('caveBattles.battle-view.army', [])
         scope: {
             armyInfo: '='
         },
-        replace: true
+        replace: true,
+        controller: 'ArmyCtrl'
     };
 });

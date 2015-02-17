@@ -9,6 +9,7 @@
             var options;
             var battleInfoSubscribers = [];
             var battleInfo;
+            var currentlySelectedArmy = null;
 
             var init = function(battleOptions) {
                 options = angular.copy(battleOptions);
@@ -60,10 +61,25 @@
                 battleInfoSubscribers = _.without(battleInfoSubscribers, callback);
             };
 
+            var requestSelection = function(army) {
+                if(!!army.selected) {
+                    currentlySelectedArmy = null;
+                    army.selected = false;
+                } else {
+                    if(currentlySelectedArmy) {
+                        currentlySelectedArmy.selected = false;
+                    }
+                    currentlySelectedArmy = army;
+                    army.selected = true;
+                }
+
+            };
+
             return {
                 init: init,
                 subscribeToChangeInBattleInfo: subscribeToChangeInBattleInfo,
-                unsubscribeToChangeInBattleInfo: unsubscribeToChangeInBattleInfo
+                unsubscribeToChangeInBattleInfo: unsubscribeToChangeInBattleInfo,
+                requestSelection: requestSelection
             };
 
         }
