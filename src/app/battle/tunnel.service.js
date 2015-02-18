@@ -43,6 +43,13 @@
                     this.length = distanceBetweenPoints(this.from.position, this.to.position);
                     this.middle = pointInBetween(this.from.position, this.to.position);
                     this.inclinationDeg = inclinationFromTwoPointsDeg(this.from.position, this.to.position);
+                },
+
+                connectsNodes: function(node1, node2) {
+                    if((this.from.id === node1.id) && ((this.to.id === node2.id)) || (this.to.id === node1.id) && ((this.from.id === node2.id))) {
+                        return true;
+                    }
+                    return false;
                 }
             };
 

@@ -72,7 +72,27 @@
                     currentlySelectedArmy = army;
                     army.selected = true;
                 }
+                selectionHasChanged();
+            };
 
+            var selectionHasChanged = function() {
+                angular.forEach(battleInfo.nodes, function(node) {
+                    node.canBeReachedBySelectedArmy = canArmyReachNode(currentlySelectedArmy, node);
+                    console.log(node.canBeReachedBySelectedArmy);
+                    console.log(node);
+                });
+            };
+
+            var canArmyReachNode = function(army, node) {
+                if(!node || !army) {
+                    return false;
+                }
+                for(var i=0; i<battleInfo.tunnels.length; i++) {
+                    if(battleInfo.tunnels[i].connectsNodes(army.node, node)) {
+                        return true;
+                    }
+                }
+                return false;
             };
 
             return {

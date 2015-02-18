@@ -7,4 +7,8 @@
     margin-top: -$node-size/2;
     border-radius: 50%;
     z-index: $node-z-index;
+
+    &.can-be-clicked {
+        border: 2px solid blue;
+    }
 }
