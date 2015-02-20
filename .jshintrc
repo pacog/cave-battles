@@ -2,7 +2,6 @@
   "node": true,
   "esnext": true,
   "bitwise": true,
-  "camelcase": true,
   "curly": true,
   "eqeqeq": true,
   "immed": true,
@@ -24,6 +23,7 @@
     // JASMINE
     "describe": false,
     "it": false,
+    "xit": false,
     "before": false,
     "beforeEach": false,
     "after": false,
