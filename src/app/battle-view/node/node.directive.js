@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('caveBattles.battle-view.node', [])
+angular.module('caveBattles.battle-view.node', ['caveBattles.battle-view.node-controller'])
 
 .directive('node', function () {
 

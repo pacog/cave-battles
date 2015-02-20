@@ -1,15 +1,16 @@
 'use strict';
 (function() {
-    angular.module('caveBattles.battle', ['ngLodash', 'caveBattles.player', 'caveBattles.tunnel', 'caveBattles.army', 'caveBattles.node'])
+    angular.module('caveBattles.battle', ['ngLodash', 'caveBattles.player', 'caveBattles.tunnel', 'caveBattles.army', 'caveBattles.node', 'caveBattles.battle-scheduler'])
 
-    .service('Battle', ['lodash', 'Player', 'Tunnel', 'Army', 'Node',
+    .service('Battle', ['lodash', 'Player', 'Tunnel', 'Army', 'Node', 'BattleScheduler',
 
-        function(_, Player, Tunnel, Army, Node) {
+        function(_, Player, Tunnel, Army, Node, BattleScheduler) {
 
             var options;
             var battleInfoSubscribers = [];
             var battleInfo;
             var currentlySelectedArmy = null;
+            var DEFAULT_FORCE_TO_TAKE = 0.5;
 
             var init = function(battleOptions) {
                 options = angular.copy(battleOptions);
@@ -95,11 +96,50 @@
                 return false;
             };
 
+            var requestSelectedArmyToGoToNode = function(node) {
+                if(!node || !currentlySelectedArmy || !canArmyReachNode(currentlySelectedArmy, node)) {
+                    return false;
+                }
+
+            };
+
+            var getPartOfArmy = function(army, desiredForce) {
+                if(angular.isUndefined(desiredForce)) {
+                    desiredForce = Math.floor(army.force*DEFAULT_FORCE_TO_TAKE);
+                }
+                var availableForce = desiredForce;
+                if(desiredForce > army.force) {
+                    availableForce = army.force;
+                }
+                army.force = army.force - availableForce;
+                if(army.force === 0) {
+                    deleteArmy(army);
+                }
+                if(availableForce > 0) {
+                    var newArmy = new Army({
+                        force: availableForce,
+                        player: army.player,
+                        originNode: army.node
+                    });
+                    battleInfo.armies.push(newArmy);
+                    return newArmy;
+                } else {
+                    return false;
+                }
+            };
+
+            var deleteArmy = function(army) {
+                army.deleted = true;
+                battleInfo.armies = _.without(battleInfo.armies, army);
+            };
+
             return {
                 init: init,
                 subscribeToChangeInBattleInfo: subscribeToChangeInBattleInfo,
                 unsubscribeToChangeInBattleInfo: unsubscribeToChangeInBattleInfo,
-                requestSelection: requestSelection
+                requestSelection: requestSelection,
+                requestSelectedArmyToGoToNode: requestSelectedArmyToGoToNode,
+                getPartOfArmy: getPartOfArmy
             };
 
         }
