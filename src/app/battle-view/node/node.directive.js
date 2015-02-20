@@ -10,6 +10,7 @@ angular.module('caveBattles.battle-view.node', ['caveBattles.battle-view.node-co
         scope: {
             nodeInfo: '='
         },
+        controller: 'NodeCtrl',
         replace: true
     };
 });

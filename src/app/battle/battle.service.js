@@ -2,9 +2,9 @@
 (function() {
     angular.module('caveBattles.battle', ['ngLodash', 'caveBattles.player', 'caveBattles.tunnel', 'caveBattles.army', 'caveBattles.node', 'caveBattles.battle-scheduler'])
 
-    .service('Battle', ['lodash', 'Player', 'Tunnel', 'Army', 'Node', 'BattleScheduler',
+    .service('Battle', ['lodash', 'Player', 'Tunnel', 'Army', 'Node', 'BattleScheduler', 'BattleEvents',
 
-        function(_, Player, Tunnel, Army, Node, BattleScheduler) {
+        function(_, Player, Tunnel, Army, Node, BattleScheduler, BattleEvents) {
 
             var options;
             var battleInfoSubscribers = [];
@@ -79,8 +79,6 @@
             var selectionHasChanged = function() {
                 angular.forEach(battleInfo.nodes, function(node) {
                     node.canBeReachedBySelectedArmy = canArmyReachNode(currentlySelectedArmy, node);
-                    console.log(node.canBeReachedBySelectedArmy);
-                    console.log(node);
                 });
             };
 
@@ -100,7 +98,11 @@
                 if(!node || !currentlySelectedArmy || !canArmyReachNode(currentlySelectedArmy, node)) {
                     return false;
                 }
-
+                BattleScheduler.addEvent(BattleEvents.MOVE_ARMY, {
+                    army: currentlySelectedArmy,
+                    destinationNode: node,
+                    battle: publicInterface
+                });
             };
 
             var getPartOfArmy = function(army, desiredForce) {
@@ -133,15 +135,22 @@
                 battleInfo.armies = _.without(battleInfo.armies, army);
             };
 
-            return {
+            var getBattleInfo = function() {
+                return battleInfo;
+            };
+
+            var publicInterface = {
                 init: init,
                 subscribeToChangeInBattleInfo: subscribeToChangeInBattleInfo,
                 unsubscribeToChangeInBattleInfo: unsubscribeToChangeInBattleInfo,
                 requestSelection: requestSelection,
                 requestSelectedArmyToGoToNode: requestSelectedArmyToGoToNode,
-                getPartOfArmy: getPartOfArmy
+                getPartOfArmy: getPartOfArmy,
+                getBattleInfo: getBattleInfo,
+                deleteArmy: deleteArmy
             };
 
+            return publicInterface;
         }
     ]);
 })();

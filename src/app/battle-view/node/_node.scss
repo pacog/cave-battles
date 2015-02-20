@@ -10,5 +10,13 @@
 
     &.can-be-clicked {
         border: 2px solid blue;
+        cursor: pointer;
+        &:hover {
+            border: 4px solid blue;
+        }
+    }
+
+    &:hover {
+        border: 2px dashed white;
     }
 }

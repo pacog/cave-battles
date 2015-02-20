@@ -3,6 +3,7 @@
     angular.module('caveBattles.battle-scheduler', ['caveBattles.utils.ordered-list', 'caveBattles.utils.timer'])
 
     .constant('BattleEvents', {
+        // army, forceToTake (optional), destinationNode
         MOVE_ARMY: 'MOVE_ARMY'
     })
 
@@ -16,7 +17,6 @@
                 //TODO process the action, modify the battle if needed and store:
                 //Scheduled event and ongoingEvent
                 //There is always a "next action" timeout. IF we changed something in the first action, will have to reschedule
-
                 switch(action) {
                     case BattleEvents.MOVE_ARMY:
                         moveArmyAction(action, params);
@@ -48,7 +48,7 @@
 
             var addScheduledEvent = function(event) {
                 //TODO: check if it is the next one to call, and in that case reinit the timeout
-                scheduledEvents.push(event);
+                scheduledEvents.add(event);
             };
 
 
