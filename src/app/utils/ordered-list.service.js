@@ -101,6 +101,14 @@
 
                 size: function() {
                     return this._currentSize;
+                },
+
+                forEach: function(callback) {
+                    var currentlyChecking = this.firstElement;
+                    while(currentlyChecking) {
+                        callback(currentlyChecking.element);
+                        currentlyChecking = currentlyChecking.next;
+                    }
                 }
             };
 

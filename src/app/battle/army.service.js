@@ -23,6 +23,16 @@
                 timeToGetToDestination: function(destinationNode) {
                     var distance = Geometry.distanceBetweenPoints(this.originNode.position, destinationNode.position);
                     return distance/this.DEFAULT_SPEED;
+                },
+                updatePosition: function(timeInterval, destinationNode) {
+                    var percentageComplete = (timeInterval/1000)/this.timeToGetToDestination(destinationNode);
+                    if(percentageComplete > 1) {
+                        percentageComplete = 1;
+                    }
+                    if(percentageComplete < 0) {
+                        percentageComplete = 0;
+                    }
+                    this.position = Geometry.getPointInBetween(this.originNode.position, destinationNode.position, percentageComplete);
                 }
             };
 

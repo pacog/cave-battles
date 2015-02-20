@@ -30,10 +30,18 @@
                 return Math.atan2(point2.y - point1.y, point2.x - point1.x) * 180 / Math.PI;
             };
 
+            var getPointInBetween = function(point1, point2, percentage) {
+                return{
+                    x: point1.x + (point2.x - point1.x)*percentage,
+                    y: point1.y + (point2.y - point1.y)*percentage,
+                };
+            };
+
             return {
                 distanceBetweenPoints: distanceBetweenPoints,
                 pointInBetween: pointInBetween,
-                inclinationFromTwoPointsDeg: inclinationFromTwoPointsDeg
+                inclinationFromTwoPointsDeg: inclinationFromTwoPointsDeg,
+                getPointInBetween: getPointInBetween
             };
 
         }

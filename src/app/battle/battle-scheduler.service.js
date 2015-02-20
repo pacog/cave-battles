@@ -1,60 +1,27 @@
 'use strict';
 (function() {
-    angular.module('caveBattles.battle-scheduler', ['caveBattles.utils.ordered-list', 'caveBattles.utils.timer'])
+    angular.module('caveBattles.battle-scheduler', ['caveBattles.utils.ordered-list', 'caveBattles.battle-actions-factory'])
 
-    .constant('BattleEvents', {
-        // army, forceToTake (optional), destinationNode
-        MOVE_ARMY: 'MOVE_ARMY'
-    })
-
-    .service('BattleScheduler', ['OrderedList', 'BattleEvents', 'Timer',
-        function(OrderedList, BattleEvents, Timer) {
+    .service('BattleScheduler', ['OrderedList', 'BattleEvents', 'BattleActionsFactory',
+        function(OrderedList, BattleEvents, BattleActionsFactory) {
 
             var eventsHappeningNow = new OrderedList({orderBy: 'timeAdded'});
-            var scheduledEvents = new OrderedList({orderBy: 'scheduledAdded'});
+            var scheduledEvents = new OrderedList({orderBy: 'scheduledFor'}); //TODO converto to class that handlesa all
 
             var addEvent = function(action, params) {
-                //TODO process the action, modify the battle if needed and store:
-                //Scheduled event and ongoingEvent
-                //There is always a "next action" timeout. IF we changed something in the first action, will have to reschedule
-                switch(action) {
-                    case BattleEvents.MOVE_ARMY:
-                        moveArmyAction(action, params);
-                        break;
-                    default:
-                        break;
+                var actionEvents = BattleActionsFactory.getAction(action, params);
+                for(var i=0; i < actionEvents.ongoingEvents.length; i++) {
+                    eventsHappeningNow.add(actionEvents.ongoingEvents[i]);
+                }
+                for(i=0; i < actionEvents.scheduledEvents.length; i++) {
+                    scheduledEvents.add(actionEvents.scheduledEvents[i]);
                 }
             };
 
-            var moveArmyAction = function(action, params) {
-                //We get a new army with the required forces
-                var newArmy = params.battle.getPartOfArmy(params.army, params.forceToTake);
-                if(newArmy) {
-                    eventsHappeningNow.add({
-                        timeAdded: Timer.getTime(),
-                        action: action,
-                        army: newArmy,
-                        destinationNode: params.destinationNode
-                    });
-                    addScheduledEvent({
-                        scheduledTime: Timer.getTime() + newArmy.timeToGetToDestination(params.destinationNode),
-                        action: action,
-                        army: newArmy,
-                        destinationNode: params.destinationNode
-                    });
-                    
-                }
-            };
-
-            var addScheduledEvent = function(event) {
-                //TODO: check if it is the next one to call, and in that case reinit the timeout
-                scheduledEvents.add(event);
-            };
-
-
-            var updateBattleInfo = function(battleInfo) {
-                //TODO go through the events happening now and update the battle
-                console.log(battleInfo);
+            var updateBattleInfo = function() {
+                eventsHappeningNow.forEach(function(event) {
+                    event.update();
+                });
             };
 
             return {

@@ -216,4 +216,33 @@ describe('ordered list', function(){
         expect(list.remove({fake: 'yes'})).toBe(false);
         expect(list.size()).toBe(3);
     }));
+
+    it('forEach function should work', inject(function() {
+        var list = new OrderedList();
+        var first = {
+            time: 1,
+            text: 'foo'
+        };
+        
+        var second = {
+            time: 2,
+            text: 'foo'
+        };
+        
+        var third = {
+            time: 3,
+            text: 'foo'
+        };
+        list.add(second);
+        list.add(third);
+        list.add(first);
+
+        var destination = [];
+        list.forEach(function(event) {
+            destination.push(event);
+        });
+        expect(destination[0]).toBe(first);
+        expect(destination[1]).toBe(second);
+        expect(destination[2]).toBe(third);
+    }));
 });

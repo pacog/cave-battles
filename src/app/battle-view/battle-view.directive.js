@@ -7,7 +7,7 @@ angular.module('caveBattles.battle-view', [
     'caveBattles.battle-view.army'
 ])
 
-.directive('battleView', function (Battle) {
+.directive('battleView', function ($timeout, Battle) {
 
     return {
         restrict: 'E',
@@ -19,8 +19,21 @@ angular.module('caveBattles.battle-view', [
                 Battle.subscribeToChangeInBattleInfo(onBattleInfoChanged);
             };
 
+            var initBattleInfoAutoUpdater = function() {
+
+                function step() {
+                    if(!Battle.hasEnded()) {
+                        $timeout(Battle.update);
+                        window.requestAnimationFrame(step);
+                    }
+                }
+
+                window.requestAnimationFrame(step);
+            };
+
             var onBattleInfoChanged = function(newBattleInfo) {
                 scope.battleInfo = newBattleInfo;
+                initBattleInfoAutoUpdater();
             };
 
             init();

@@ -62,6 +62,10 @@
                 battleInfoSubscribers = _.without(battleInfoSubscribers, callback);
             };
 
+            var update = function() {
+                BattleScheduler.updateBattleInfo(publicInterface);
+            };
+
             var requestSelection = function(army) {
                 if(!!army.selected) {
                     currentlySelectedArmy = null;
@@ -139,6 +143,10 @@
                 return battleInfo;
             };
 
+            var hasEnded = function() {
+                return false;
+            };
+
             var publicInterface = {
                 init: init,
                 subscribeToChangeInBattleInfo: subscribeToChangeInBattleInfo,
@@ -147,7 +155,9 @@
                 requestSelectedArmyToGoToNode: requestSelectedArmyToGoToNode,
                 getPartOfArmy: getPartOfArmy,
                 getBattleInfo: getBattleInfo,
-                deleteArmy: deleteArmy
+                deleteArmy: deleteArmy,
+                hasEnded: hasEnded,
+                update: update
             };
 
             return publicInterface;
