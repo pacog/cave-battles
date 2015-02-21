@@ -1,11 +1,7 @@
 'use strict';
 
-angular.module('caveBattles.battle-view.army-controller', ['caveBattles.battle'])
+angular.module('caveBattles.battle-view.army-controller', [])
 
-.controller('ArmyCtrl', function ($scope, Battle) {
-
-    $scope.armyClicked = function() {
-        Battle.requestSelection($scope.armyInfo);
-    };
+.controller('ArmyCtrl', function () {
 
 });

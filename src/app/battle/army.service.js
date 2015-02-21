@@ -33,6 +33,18 @@
                         percentageComplete = 0;
                     }
                     this.position = Geometry.getPointInBetween(this.originNode.position, destinationNode.position, percentageComplete);
+                },
+
+                removeForce: function(force) {
+                    this.force = this.force - force;
+                    if(this.force <= 0) {
+                        this.destroy();
+                    }
+                },
+
+                destroy: function() {
+                    this.force = 0;
+                    this.deleted = true;
                 }
             };
 

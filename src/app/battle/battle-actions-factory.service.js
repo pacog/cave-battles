@@ -44,7 +44,7 @@
                 this.destinationNode = params.destinationNode;
             },
             execute: function() {
-                
+                this.destinationNode.handleArmyArriving(this.army);
             }
         };
 
@@ -61,15 +61,13 @@
             init: function(params) {
                 this.ongoingEvents = [];
                 this.scheduledEvents = [];
-                //We get a new army with the required forces
-                var newArmy = params.battle.getPartOfArmy(params.army, params.forceToTake);
-                if(newArmy) {
+                if(params.army && params.army.force) {
                     this.ongoingEvents.push(new MoveArmyActionOnGoing({
-                        army: newArmy,
+                        army: params.army,
                         destinationNode: params.destinationNode
                     }));
                     this.scheduledEvents.push(new MoveArmyActionScheduled({
-                        army: newArmy,
+                        army: params.army,
                         destinationNode: params.destinationNode,
                         relatedOngoingEvents: this.ongoingEvents
                     }));

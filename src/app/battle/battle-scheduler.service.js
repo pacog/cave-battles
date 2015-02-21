@@ -49,7 +49,6 @@
                 scheduledEvents.firstElement.element.execute();
                 scheduledEvents.pop();
                 resetScheduleTimeout();
-
             };
 
             return {

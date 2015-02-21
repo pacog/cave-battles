@@ -1,6 +1,9 @@
 <div
     class='node'
-    ng-class='{"can-be-clicked": nodeInfo.canBeReachedBySelectedArmy}'
+    ng-class='{
+        "can-be-clicked": nodeInfo.canBeReachedBySelectedNode,
+        "selected": nodeInfo.selected
+    }'
     ng-style='{"top": nodeInfo.position.y + "%", "left": nodeInfo.position.x + "%"}',
     ng-click='nodeClicked()'
 ></div>

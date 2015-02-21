@@ -9,7 +9,7 @@
             var options;
             var battleInfoSubscribers = [];
             var battleInfo;
-            var currentlySelectedArmy = null;
+            var currentlySelectedNode = null;
             var DEFAULT_FORCE_TO_TAKE = 0.5;
 
             var init = function(battleOptions) {
@@ -31,12 +31,8 @@
                     var player = new Player(playerOptions);
 
                     battleInfo.players.push(player);
-
-                    battleInfo.armies.push(new Army({
-                        node: battleInfo.nodes[playerOptions.initialNode],
-                        force: playerOptions.initialForce,
-                        player: player
-                    }));
+                    battleInfo.nodes[playerOptions.initialNode].currentOwner = player;
+                    battleInfo.nodes[playerOptions.initialNode].ownerStrength = player.initialForce;
                 });
 
                 battleInfo.tunnels = [];
@@ -63,80 +59,78 @@
             };
 
             var update = function() {
+                cleanDeletedArmies();
                 BattleScheduler.updateBattleInfo(publicInterface);
             };
 
-            var requestSelection = function(army) {
-                if(!!army.selected) {
-                    currentlySelectedArmy = null;
-                    army.selected = false;
-                } else {
-                    if(currentlySelectedArmy) {
-                        currentlySelectedArmy.selected = false;
+            var cleanDeletedArmies = function() {
+                var armiesToClean = [];
+                for(var i=0; i<battleInfo.armies.length; i++) {
+                    if(!!battleInfo.armies[i].deleted) {
+                        armiesToClean.push(battleInfo.armies[i]);
                     }
-                    currentlySelectedArmy = army;
-                    army.selected = true;
+                }
+                for(i=0; i<armiesToClean.length; i++) {
+                    battleInfo.armies = _.without(battleInfo.armies, armiesToClean[i]);
+                }
+            };
+
+            var requestSelection = function(node) {
+                if(!!node.selected) {
+                    currentlySelectedNode = null;
+                    node.selected = false;
+                } else {
+                    if(currentlySelectedNode) {
+                        currentlySelectedNode.selected = false;
+                    }
+                    currentlySelectedNode = node;
+                    node.selected = true;
                 }
                 selectionHasChanged();
             };
 
             var selectionHasChanged = function() {
                 angular.forEach(battleInfo.nodes, function(node) {
-                    node.canBeReachedBySelectedArmy = canArmyReachNode(currentlySelectedArmy, node);
+                    node.canBeReachedBySelectedNode = canNodeReachNode(currentlySelectedNode, node);
                 });
             };
 
-            var canArmyReachNode = function(army, node) {
-                if(!node || !army) {
+            var canNodeReachNode = function(node1, node2) {
+                if(!node1 || !node2) {
                     return false;
                 }
                 for(var i=0; i<battleInfo.tunnels.length; i++) {
-                    if(battleInfo.tunnels[i].connectsNodes(army.node, node)) {
+                    if(battleInfo.tunnels[i].connectsNodes(node1, node2)) {
                         return true;
                     }
                 }
                 return false;
             };
 
-            var requestSelectedArmyToGoToNode = function(node) {
-                if(!node || !currentlySelectedArmy || !canArmyReachNode(currentlySelectedArmy, node)) {
-                    return false;
+            var requestNodeForcesToGoToNode = function(destinationNode, desiredForce) {
+                if(!currentlySelectedNode) {
+                    return;
                 }
-                BattleScheduler.addEvent(BattleEvents.MOVE_ARMY, {
-                    army: currentlySelectedArmy,
-                    destinationNode: node,
-                    battle: publicInterface
-                });
-            };
-
-            var getPartOfArmy = function(army, desiredForce) {
+                var originNode = currentlySelectedNode;
                 if(angular.isUndefined(desiredForce)) {
-                    desiredForce = Math.floor(army.force*DEFAULT_FORCE_TO_TAKE);
+                    desiredForce = Math.floor(originNode.ownerStrength*DEFAULT_FORCE_TO_TAKE);
                 }
-                var availableForce = desiredForce;
-                if(desiredForce > army.force) {
-                    availableForce = army.force;
+                if(desiredForce > originNode.ownerStrength) {
+                    desiredForce = originNode.ownerStrength;
                 }
-                army.force = army.force - availableForce;
-                if(army.force === 0) {
-                    deleteArmy(army);
-                }
-                if(availableForce > 0) {
-                    var newArmy = new Army({
-                        force: availableForce,
-                        player: army.player,
-                        originNode: army.node
-                    });
-                    battleInfo.armies.push(newArmy);
-                    return newArmy;
-                } else {
-                    return false;
-                }
-            };
+                var newArmy = new Army({
+                    force: desiredForce,
+                    player: originNode.currentOwner,
+                    originNode: originNode
+                });
+                battleInfo.armies.push(newArmy);
+                BattleScheduler.addEvent(BattleEvents.MOVE_ARMY, {
+                    army: newArmy,
+                    destinationNode: destinationNode,
+                    battle: publicInterface,
+                    force: desiredForce
+                });
 
-            var deleteArmy = function(army) {
-                army.deleted = true;
-                battleInfo.armies = _.without(battleInfo.armies, army);
             };
 
             var getBattleInfo = function() {
@@ -152,12 +146,10 @@
                 subscribeToChangeInBattleInfo: subscribeToChangeInBattleInfo,
                 unsubscribeToChangeInBattleInfo: unsubscribeToChangeInBattleInfo,
                 requestSelection: requestSelection,
-                requestSelectedArmyToGoToNode: requestSelectedArmyToGoToNode,
-                getPartOfArmy: getPartOfArmy,
                 getBattleInfo: getBattleInfo,
-                deleteArmy: deleteArmy,
                 hasEnded: hasEnded,
-                update: update
+                update: update,
+                requestNodeForcesToGoToNode: requestNodeForcesToGoToNode
             };
 
             return publicInterface;
