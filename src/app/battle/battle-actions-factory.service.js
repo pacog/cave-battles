@@ -38,8 +38,9 @@
 
         MoveArmyActionScheduledClass.prototype = {
             init: function(params) {
+                this.relatedOngoingEvents = params.relatedOngoingEvents;
                 this.army = params.army;
-                this.scheduledFor = Timer.getTime() + this.army.timeToGetToDestination(params.destinationNode);
+                this.scheduledFor = Timer.getTime() + this.army.timeToGetToDestination(params.destinationNode)*1000;
                 this.destinationNode = params.destinationNode;
             },
             execute: function() {
