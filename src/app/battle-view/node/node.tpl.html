@@ -9,5 +9,8 @@
     ng-click='nodeClicked()'
 >
 
-    <div ng-show='!!nodeInfo.currentOwner' >{{nodeInfo.ownerStrength}}</div>
+    <div class='node-owner-strength' ng-style='{"background": nodeInfo.currentOwner.color}' ng-show='!!nodeInfo.currentOwner' >{{nodeInfo.ownerStrength}}</div>
+    <div class='node-partial-owner-strength' ng-show='!!nodeInfo.partialOwner' >
+        <div class='node-partial-owner-strength-inner' ng-style='{"background": nodeInfo.partialOwner.color, "top": getTopFill() + "%"}' ></div>
+    </div>
 </div>

@@ -12,4 +12,10 @@ angular.module('caveBattles.battle-view.node-controller', ['caveBattles.battle']
         }
     };
 
+    $scope.getTopFill = function() {
+        if(!$scope.nodeInfo.partialOwner) {
+            return 100;
+        }
+        return 100*(1 - ($scope.nodeInfo.ownerStrength/$scope.nodeInfo.DEFAULT_NODE_STRENGTH));
+    };
 });

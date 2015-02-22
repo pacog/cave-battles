@@ -94,6 +94,11 @@ describe('battle model', function(){
             expect(battleInfo.nodes['1'].currentOwner).toBe(battleInfo.players[0]);
             expect(battleInfo.nodes['1'].ownerStrength).toBe(0);
         }));
+
+
+        it('a node without owner should be allowed to send forces', inject(function() {
+            //TODO
+        }));
     });
 
 });

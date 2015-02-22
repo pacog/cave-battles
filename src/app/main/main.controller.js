@@ -52,7 +52,8 @@ angular.module('caveBattles.main', ['caveBattles.battle', 'caveBattles.battle-vi
             }],
             players: [{
                 initialNode: '1',
-                initialForce: 20
+                initialForce: 20,
+                color: '#000055'
             }]
         }
     };
