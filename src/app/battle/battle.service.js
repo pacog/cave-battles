@@ -118,11 +118,15 @@
                 if(desiredForce > originNode.ownerStrength) {
                     desiredForce = originNode.ownerStrength;
                 }
+                if(desiredForce === 0) {
+                    return;
+                }
                 var newArmy = new Army({
                     force: desiredForce,
                     player: originNode.currentOwner,
                     originNode: originNode
                 });
+                originNode.ownerStrength = originNode.ownerStrength - desiredForce;
                 battleInfo.armies.push(newArmy);
                 BattleScheduler.addEvent(BattleEvents.MOVE_ARMY, {
                     army: newArmy,

@@ -2,8 +2,12 @@
     class='node'
     ng-class='{
         "can-be-clicked": nodeInfo.canBeReachedBySelectedNode,
-        "selected": nodeInfo.selected
+        "selected": nodeInfo.selected,
+        "has-owner": !!nodeInfo.currentOwner
     }'
     ng-style='{"top": nodeInfo.position.y + "%", "left": nodeInfo.position.x + "%"}',
     ng-click='nodeClicked()'
-></div>
+>
+
+    <div ng-show='!!nodeInfo.currentOwner' >{{nodeInfo.ownerStrength}}</div>
+</div>
