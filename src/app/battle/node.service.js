@@ -6,6 +6,8 @@
 
         function(_) {
 
+            var INCREMENT_PER_FILL = 1;
+
             var NodeClass = function(options) {
                 _.assign(this, options);
                 this.currentOwner = null;
@@ -16,6 +18,12 @@
             NodeClass.prototype = {
 
                 DEFAULT_NODE_STRENGTH: 10,
+
+                fillNode: function() {
+                    if(!!this.currentOwner) {
+                        this.ownerStrength += INCREMENT_PER_FILL;
+                    }
+                },
 
                 handleArmyArriving: function(army) {
 

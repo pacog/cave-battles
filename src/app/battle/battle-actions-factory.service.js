@@ -4,7 +4,8 @@
 
     .constant('BattleEvents', {
         // army, forceToTake (optional), destinationNode
-        MOVE_ARMY: 'MOVE_ARMY'
+        MOVE_ARMY: 'MOVE_ARMY',
+        FILL_NODES: 'FILL_NODES'
     })
 
 
@@ -51,6 +52,28 @@
         return MoveArmyActionScheduledClass;
     })
 
+    .factory('FillNodesActionScheduled', function(Timer) {
+
+        var FillNodesActionScheduledClass = function(params) {
+            this.init(params);
+        };
+
+        FillNodesActionScheduledClass.prototype = {
+            init: function(params) {
+                this.relatedOngoingEvents = params.relatedOngoingEvents;
+                this.nodes = params.nodes;
+                this.scheduledFor = Timer.getTime();
+            },
+            execute: function() {
+                angular.forEach(this.nodes, function(node) {
+                    node.fillNode();
+                });
+            }
+        };
+
+        return FillNodesActionScheduledClass;
+    })
+
     .factory('MoveArmyAction', function(MoveArmyActionOnGoing, MoveArmyActionScheduled) {
 
         var MoveArmyActionClass = function(params) {
@@ -78,16 +101,38 @@
         return MoveArmyActionClass;
     })
 
+    .factory('FillNodesAction', function(FillNodesActionScheduled) {
+
+        var FillNodesActionClass = function(params) {
+            this.init(params);
+        };
+
+        FillNodesActionClass.prototype = {
+            init: function(params) {
+                this.ongoingEvents = [];
+                this.scheduledEvents = [];
+
+                this.scheduledEvents.push(new FillNodesActionScheduled({
+                    nodes: params.nodes,
+                    relatedOngoingEvents: this.ongoingEvents
+                }));
+            }
+        };
+
+        return FillNodesActionClass;
+    })
 
 
-    .factory('BattleActionsFactory', ['BattleEvents', 'MoveArmyAction',
+    .factory('BattleActionsFactory', ['BattleEvents', 'MoveArmyAction', 'FillNodesAction',
 
-        function(BattleEvents, MoveArmyAction) {
+        function(BattleEvents, MoveArmyAction, FillNodesAction) {
 
             var getAction = function(action, params) {
                 switch(action) {
                     case BattleEvents.MOVE_ARMY:
                         return new MoveArmyAction(params);
+                    case BattleEvents.FILL_NODES:
+                        return new FillNodesAction(params);
                     default:
                         break;
                 }

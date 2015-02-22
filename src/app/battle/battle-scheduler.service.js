@@ -2,8 +2,8 @@
 (function() {
     angular.module('caveBattles.battle-scheduler', ['caveBattles.utils.ordered-list', 'caveBattles.battle-actions-factory', 'caveBattles.utils.timer'])
 
-    .service('BattleScheduler', ['$timeout', 'OrderedList', 'BattleEvents', 'BattleActionsFactory', 'Timer',
-        function($timeout, OrderedList, BattleEvents, BattleActionsFactory, Timer) {
+    .service('BattleScheduler', ['$timeout', '$interval', 'OrderedList', 'BattleEvents', 'BattleActionsFactory', 'Timer',
+        function($timeout, $interval, OrderedList, BattleEvents, BattleActionsFactory, Timer) {
 
             var eventsHappeningNow = new OrderedList({orderBy: 'timeAdded'});
             var scheduledEvents = new OrderedList({orderBy: 'scheduledFor'}); //TODO converto to class that handlesa all
@@ -18,6 +18,12 @@
                     scheduledEvents.add(actionEvents.scheduledEvents[i]);
                 }
                 resetScheduleTimeout();
+            };
+
+            var addRecurringEvent = function(action, params, everyMilliseconds) {
+                $interval(function() {
+                    addEvent(action, params);
+                }, everyMilliseconds);
             };
 
             var updateBattleInfo = function() {
@@ -53,6 +59,7 @@
 
             return {
                 addEvent: addEvent,
+                addRecurringEvent: addRecurringEvent,
                 updateBattleInfo: updateBattleInfo
             };
         }

@@ -11,6 +11,7 @@
             var battleInfo;
             var currentlySelectedNode = null;
             var DEFAULT_FORCE_TO_TAKE = 0.5;
+            var FILL_NODES_EVERY = 1000; //ns
 
             var init = function(battleOptions) {
                 options = angular.copy(battleOptions);
@@ -41,6 +42,9 @@
                 });
 
                 notifyBattleInfoChanged(battleInfo);
+                BattleScheduler.addRecurringEvent(BattleEvents.FILL_NODES, {
+                    nodes: battleInfo.nodes
+                }, FILL_NODES_EVERY);
             };
 
             var notifyBattleInfoChanged = function() {
