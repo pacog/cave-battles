@@ -4,7 +4,8 @@ angular.module('caveBattles.battle-view.node-controller', ['caveBattles.battle']
 
 .controller('NodeCtrl', function ($scope, Battle) {
 
-    $scope.nodeClicked = function() {
+    $scope.nodeClicked = function($event) {
+        $event.stopPropagation();
         if($scope.nodeInfo.canBeReachedBySelectedNode) {
             Battle.requestNodeForcesToGoToNode($scope.nodeInfo);
         } else {

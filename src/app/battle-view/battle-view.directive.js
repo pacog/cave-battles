@@ -36,6 +36,10 @@ angular.module('caveBattles.battle-view', [
                 initBattleInfoAutoUpdater();
             };
 
+            scope.onBackgroundClicked = function() {
+                Battle.removeCurrentSelection();
+            };
+
             init();
         }
     };

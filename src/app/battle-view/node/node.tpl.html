@@ -6,11 +6,13 @@
         "has-owner": !!nodeInfo.currentOwner
     }'
     ng-style='{"top": nodeInfo.position.y + "%", "left": nodeInfo.position.x + "%"}',
-    ng-click='nodeClicked()'
+    ng-click='nodeClicked($event)'
 >
 
+    <div class='node-inner'></div>
     <div class='node-owner-strength' ng-style='{"background": nodeInfo.currentOwner.color}' ng-show='!!nodeInfo.currentOwner' >{{nodeInfo.ownerStrength}}</div>
     <div class='node-partial-owner-strength' ng-show='!!nodeInfo.partialOwner' >
         <div class='node-partial-owner-strength-inner' ng-style='{"background": nodeInfo.partialOwner.color, "top": getTopFill() + "%"}' ></div>
     </div>
+    <div class='node-selected' ng-if='nodeInfo.selected'></div>
 </div>

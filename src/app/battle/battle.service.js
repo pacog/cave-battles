@@ -84,13 +84,18 @@
                     currentlySelectedNode = null;
                     node.selected = false;
                 } else {
-                    if(currentlySelectedNode) {
-                        currentlySelectedNode.selected = false;
-                    }
+                    removeCurrentSelection();
                     currentlySelectedNode = node;
                     node.selected = true;
                 }
                 selectionHasChanged();
+            };
+
+            var removeCurrentSelection = function() {
+                if(currentlySelectedNode) {
+                    currentlySelectedNode.selected = false;
+                }
+                currentlySelectedNode = null;
             };
 
             var selectionHasChanged = function() {
@@ -138,7 +143,7 @@
                     battle: publicInterface,
                     force: desiredForce
                 });
-
+                removeCurrentSelection();
             };
 
             var getBattleInfo = function() {
@@ -157,7 +162,8 @@
                 getBattleInfo: getBattleInfo,
                 hasEnded: hasEnded,
                 update: update,
-                requestNodeForcesToGoToNode: requestNodeForcesToGoToNode
+                requestNodeForcesToGoToNode: requestNodeForcesToGoToNode,
+                removeCurrentSelection: removeCurrentSelection
             };
 
             return publicInterface;

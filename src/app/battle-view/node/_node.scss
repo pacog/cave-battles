@@ -1,56 +1,48 @@
+@mixin node($radius) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: $radius;
+    line-height: $radius;
+    width: $radius;
+    border-radius: 50%;
+    text-align: center;
+}
+
 .node {
     background: $node-color;
-    height: $node-size;
-    width: $node-size;
-    position: absolute;
+    @include node($node-size);
+    z-index: $node-z-index;
     margin-left: -$node-size/2;
     margin-top: -$node-size/2;
-    border-radius: 50%;
-    z-index: $node-z-index;
-
     &.can-be-clicked {
-        border: 2px solid blue;
+        box-shadow: 0 0 2px blue;
         cursor: pointer;
         &:hover {
-            border: 4px solid blue;
+            box-shadow: 0 0 4px blue;
         }
     }
 
     &:hover {
-        border: 2px dashed white;
-    }
-
-    &.selected {
-        border: 2px solid white;
+        box-shadow: 0 0 4px white;
     }
 
     &.selected:hover {
         background: lighten($army-color, 25);
     }
 }
+
+
     .node-owner-strength {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: $node-size;
-        line-height: $node-size;
-        width: $node-size;
-        text-align: center;
-        border-radius: 50%;
-        border: 4px solid $node-color;
+        @include node($node-size);
+        box-shadow: 0 0 4px $node-color;
         color: white;
+        z-index: $node-inner-z-index;
     }
 
     .node-partial-owner-strength {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: $node-size;
-        line-height: $node-size;
-        width: $node-size;
-        text-align: center;
-        border-radius: 50%;
-        border: 4px solid $node-color;
+        @include node($node-size);
+        box-shadow: 0 0 4px $node-color;
         color: white;
         overflow: hidden;
     }
@@ -59,4 +51,14 @@
             bottom: 0;
             left: 0;
             right: 0;
+        }
+
+        $node-selection-size: $node-size*1.5;
+        .node-selected {
+            @include node($node-selection-size);
+            background: black;
+            color: white;
+            z-index: $node-selected-z-index;
+            margin-left: -($node-selection-size - $node-size)/2;
+            margin-top: -($node-selection-size - $node-size)/2;
         }
