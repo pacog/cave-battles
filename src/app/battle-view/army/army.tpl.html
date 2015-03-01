@@ -1,5 +1,5 @@
-<div class='army'
-     ng-style='{"top": armyInfo.position.y + "%", "left": armyInfo.position.x + "%", "background": armyInfo.player.color}'
+<div class='army player-{{armyInfo.player.number}}'
+     ng-style='{"top": armyInfo.position.y + "%", "left": armyInfo.position.x + "%"}'
         >
      {{armyInfo.force}}
  </div>

@@ -1,6 +1,8 @@
 @import "core-styles/reset";
 @import "core-styles/base";
 @import "core-styles/var";
+@import "core-styles/mixins";
+@import "core-styles/players";
 
 @import "battle-view/battle-view";
 @import "battle-view/node/node";

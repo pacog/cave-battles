@@ -1,0 +1,82 @@
+$player_1_base: #A8A138;
+$player_2_base: #342673;
+$player_3_base: #A83850;
+
+
+@mixin glow($pixels, $color, $opacity) {
+    box-shadow:
+            0 0 ($pixels*0.07)  rgba(white, $opacity),
+            0 0 ($pixels*0.12)  rgba(white, $opacity),
+            0 0 ($pixels*0.20)  rgba(white, $opacity),
+            0 0 ($pixels*0.22)  rgba($color, $opacity),
+            0 0 ($pixels*0.47)  rgba($color, $opacity),
+            0 0 ($pixels*0.55)  rgba($color, $opacity),
+            0 0 ($pixels*0.66)  rgba($color, $opacity),
+            0 0 $pixels         rgba($color, $opacity);
+}
+
+@include keyframes(glow_default_1) {
+    from { @include glow(40px, $player_1_base, 0.4); }
+    to { @include glow(15px, $player_1_base, 0.4); }
+}
+
+@include keyframes(glow_selected_1) {
+    from { @include glow(150px, $player_1_base, 1); }
+    to { @include glow(40px, $player_1_base, 1); }
+}
+
+@include keyframes(glow_default_2) {
+    from { @include glow(40px, $player_2_base, 0.4); }
+    to { @include glow(15px, $player_2_base, 0.4); }
+}
+
+@include keyframes(glow_selected_2) {
+    from { @include glow(150px, $player_2_base, 1); }
+    to { @include glow(40px, $player_2_base, 1); }
+}
+
+.node.player-1 {
+    .node-owner-strength {
+        background: $player_1_base;
+        @include animation('glow_default_1 1.5s ease-in-out infinite alternate');
+    }
+    .node-partial-owner-strength {
+        background: $player_1_base;
+    }
+}
+.node.player-1.selected .node-owner-strength {
+    @include animation('glow_selected_1 1.0s ease-in-out infinite alternate');
+}
+.player-1 .node-partial-owner-strength-inner {
+    background: $player_1_base;
+    @include animation('glow_default_1 1.5s ease-in-out infinite alternate');
+}
+.army.player-1 {
+    background: $player_1_base;
+    @include animation('glow_default_1 1.5s ease-in-out infinite alternate');
+}
+
+
+.node.player-2 {
+    .node-owner-strength {
+        background: $player_2_base;
+        @include animation('glow_default_2 1.5s ease-in-out infinite alternate');
+        .node.selected &{
+            @include animation('glow_selected_2 1.0s ease-in-out infinite alternate');
+        }
+    }
+    .node-partial-owner-strength {
+        background: $player_2_base;
+    }
+}
+.node.player-2.selected .node-owner-strength {
+    @include animation('glow_selected_2 1.0s ease-in-out infinite alternate');
+}
+.player-2 .node-partial-owner-strength-inner {
+    background: $player_2_base;
+    @include animation('glow_default_2 1.5s ease-in-out infinite alternate');
+}
+.army.player-2 {
+    background: $player_2_base;
+    @include animation('glow_default_2 1.5s ease-in-out infinite alternate');
+}

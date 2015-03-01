@@ -101,11 +101,11 @@ angular.module('caveBattles.main', ['caveBattles.battle', 'caveBattles.battle-vi
             players: [{
                 initialNode: '1',
                 initialForce: 10,
-                color: '#000055'
+                number: '1'
             },{
                 initialNode: '9',
                 initialForce: 10,
-                color: '#770022'
+                number: '2'
             }]
         }
     };

@@ -1,48 +1,29 @@
-@mixin node($radius) {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: $radius;
-    line-height: $radius;
-    width: $radius;
-    border-radius: 50%;
-    text-align: center;
-}
-
 .node {
     background: $node-color;
     @include node($node-size);
     z-index: $node-z-index;
     margin-left: -$node-size/2;
     margin-top: -$node-size/2;
+    cursor: pointer;
     &.can-be-clicked {
-        box-shadow: 0 0 2px blue;
-        cursor: pointer;
-        &:hover {
-            box-shadow: 0 0 4px blue;
-        }
-    }
-
-    &:hover {
-        box-shadow: 0 0 4px white;
-    }
-
-    &.selected:hover {
-        background: lighten($army-color, 25);
+        // box-shadow: 0 0 2px blue;
+        // cursor: pointer;
+        // &:hover {
+        //     box-shadow: 0 0 4px blue;
+        // }
     }
 }
-
-
+    $node-owner-size: $node-size*0.8;
     .node-owner-strength {
-        @include node($node-size);
-        box-shadow: 0 0 4px $node-color;
+        @include node($node-owner-size);
+        margin: ($node-size - $node-owner-size)/2;
         color: white;
         z-index: $node-inner-z-index;
     }
 
     .node-partial-owner-strength {
-        @include node($node-size);
-        box-shadow: 0 0 4px $node-color;
+        @include node($node-owner-size);
+        margin: ($node-size - $node-owner-size)/2;
         color: white;
         overflow: hidden;
     }
@@ -51,14 +32,4 @@
             bottom: 0;
             left: 0;
             right: 0;
-        }
-
-        $node-selection-size: $node-size*1.5;
-        .node-selected {
-            @include node($node-selection-size);
-            background: black;
-            color: white;
-            z-index: $node-selected-z-index;
-            margin-left: -($node-selection-size - $node-size)/2;
-            margin-top: -($node-selection-size - $node-size)/2;
         }

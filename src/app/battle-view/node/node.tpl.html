@@ -1,5 +1,5 @@
 <div
-    class='node'
+    class='node player-{{nodeInfo.currentOwner.number}}'
     ng-class='{
         "can-be-clicked": nodeInfo.canBeReachedBySelectedNode,
         "selected": nodeInfo.selected,
@@ -10,9 +10,8 @@
 >
 
     <div class='node-inner'></div>
-    <div class='node-owner-strength' ng-style='{"background": nodeInfo.currentOwner.color}' ng-show='!!nodeInfo.currentOwner' >{{nodeInfo.ownerStrength}}</div>
-    <div class='node-partial-owner-strength' ng-show='!!nodeInfo.partialOwner' >
-        <div class='node-partial-owner-strength-inner' ng-style='{"background": nodeInfo.partialOwner.color, "top": getTopFill() + "%"}' ></div>
+    <div class='node-owner-strength' ng-show='!!nodeInfo.currentOwner' >{{nodeInfo.ownerStrength}}</div>
+    <div class='node-partial-owner-strength  player-{{nodeInfo.partialOwner.number}}' ng-show='!!nodeInfo.partialOwner' >
+        <div class='node-partial-owner-strength-inner' ng-style='{"top": getTopFill() + "%"}' ></div>
     </div>
-    <div class='node-selected' ng-if='nodeInfo.selected'></div>
 </div>

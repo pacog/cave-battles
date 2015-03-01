@@ -1,26 +1,8 @@
 .army {
-    position: absolute;
-    height: $army-size;
-    width: $army-size;
+    @include node($army-size);
     margin-left: -$army-size/2;
     margin-top: -$army-size/2;
-    border-radius: 50%;
-    background: $army-color;
     z-index: $army-z-index;
-    text-align: center;
-    line-height: $army-size;
-    vertical-align: middle;
     cursor: pointer;
     color: white;
-    &:hover {
-        border: 2px dashed white;
-    }
-
-    &.selected {
-        border: 2px solid white;
-    }
-
-    &.selected:hover {
-        background: lighten($army-color, 25);
-    }
 }
