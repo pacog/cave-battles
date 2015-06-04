@@ -6,11 +6,8 @@
     margin-top: -$node-size/2;
     cursor: pointer;
     &.can-be-clicked {
-        // box-shadow: 0 0 2px blue;
-        // cursor: pointer;
-        // &:hover {
-        //     box-shadow: 0 0 4px blue;
-        // }
+        @include animation('node_can_be_clicked 1.5s ease-in-out infinite alternate');
+        cursor: pointer;
     }
 }
     $node-owner-size: $node-size*0.8;
@@ -33,3 +30,9 @@
             left: 0;
             right: 0;
         }
+
+
+@include keyframes(node_can_be_clicked) {
+    from { @include glow(90px, #fff, 1); }
+    to { @include glow(30px, #fff, 1); }
+}

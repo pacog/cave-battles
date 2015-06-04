@@ -1,6 +1,7 @@
 .battle-view {
     background: $background-color;
-    width: 500px;
-    height: 500px;
+    width: 100vh;
+    height: 100vh;
     position: relative;
+    margin: 0 auto;
 }
