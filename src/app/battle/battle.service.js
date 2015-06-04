@@ -96,6 +96,7 @@
                     currentlySelectedNode.selected = false;
                 }
                 currentlySelectedNode = null;
+                selectionHasChanged();
             };
 
             var selectionHasChanged = function() {

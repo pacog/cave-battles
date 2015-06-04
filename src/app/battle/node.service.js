@@ -46,20 +46,12 @@
                     } else if(!this.currentOwner && !this.partialOwner) {
                         //Nobody else controls the node
                         this._handleArmyArrivingAtEmptyNode(army);
-
                     } else if(!!this.currentOwner && (this.currentOwner !== army.player)) {
-                        //Some other controls the node
-                        if(army.force > this.ownerStrength) {
-                            //New army can remove it
-                            army.force = army.force - this.ownerStrength;
-                            this.ownerStrength = 0;
-                            this.currentOwner = null;
-                            //And now start as if it was an empty node
-                            this._handleArmyArrivingAtEmptyNode(army);
-                        } else {
-                            this.ownerStrength -= army.force;
-                            army.destroy();
-                        }
+                        //Army arriving at a completely enemy node
+                        this._handleArmyArrivingAtEnemyNode(army);
+                    } else if(!!this.partialOwner && (this.partialOwner !== army.player)) {
+                        //Army arriving at a partial enemy node
+                        this._handleArmyArrivingAtEnemyNode(army);
                     }
                 },
 
@@ -72,6 +64,20 @@
                         //Army cannot conquer
                         this.partialOwner = army.player;
                         this.ownerStrength = army.force;
+                        army.destroy();
+                    }
+                },
+
+                _handleArmyArrivingAtEnemyNode: function(army) {
+                    if(army.force > this.ownerStrength) {
+                        //New army can remove it
+                        army.force = army.force - this.ownerStrength;
+                        this.ownerStrength = 0;
+                        this.currentOwner = null;
+                        //And now start as if it was an empty node
+                        this._handleArmyArrivingAtEmptyNode(army);
+                    } else {
+                        this.ownerStrength -= army.force;
                         army.destroy();
                     }
                 },
