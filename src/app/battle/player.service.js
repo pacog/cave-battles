@@ -6,6 +6,8 @@
 
         function(_, IdGenerator) {
 
+            var TYPE_HUMAN = 'human';
+
             var PlayerClass = function(options) {
 
                 this.init(options);
@@ -16,6 +18,10 @@
                 init: function(options) {
                     _.assign(this, options);
                     this.id = IdGenerator.getNewId();
+                },
+
+                isHuman: function() {
+                    return this.type === TYPE_HUMAN;
                 }
             };
 

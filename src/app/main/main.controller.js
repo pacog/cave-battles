@@ -97,15 +97,23 @@ angular.module('caveBattles.main', ['caveBattles.battle', 'caveBattles.battle-vi
             },{
                 from: '9',
                 to: '5'
+            },{
+                from: '2',
+                to: '5'
+            },{
+                from: '8',
+                to: '5'
             }],
             players: [{
                 initialNode: '1',
                 initialForce: 10,
-                number: '1'
+                number: '1',
+                type: 'human'
             },{
                 initialNode: '9',
                 initialForce: 10,
-                number: '2'
+                number: '2',
+                type: 'AI'
             }]
         }
     };

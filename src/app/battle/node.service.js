@@ -7,12 +7,13 @@
         function(_) {
 
             var INCREMENT_PER_FILL = 1;
+            var MAX_FORCE = 50;
 
             var NodeClass = function(options) {
                 _.assign(this, options);
                 this.currentOwner = null;
                 this.partialOwner = null;
-                this.ownerStrength = 0;
+                this._setOwnerStrength(0);
             };
 
             NodeClass.prototype = {
@@ -21,7 +22,7 @@
 
                 fillNode: function() {
                     if(!!this.currentOwner) {
-                        this.ownerStrength += INCREMENT_PER_FILL;
+                        this._setOwnerStrength(this.ownerStrength + INCREMENT_PER_FILL);
                     }
                 },
 
@@ -29,7 +30,7 @@
 
                     if(army.player === this.currentOwner) {
                         //Army's player already is the owner
-                        this.ownerStrength += army.force;
+                        this._setOwnerStrength(this.ownerStrength + army.force);
                         army.destroy();
 
                     } else if (army.player === this.partialOwner) {
@@ -39,7 +40,7 @@
                             this._setArmyAsOwner(army, this.DEFAULT_NODE_STRENGTH - this.ownerStrength);
                         } else {
                             //Army's player cannot yet become real owner
-                            this.ownerStrength += army.force;
+                            this._setOwnerStrength(this.ownerStrength + army.force);
                             army.destroy();
                         }
 
@@ -63,7 +64,7 @@
                     } else {
                         //Army cannot conquer
                         this.partialOwner = army.player;
-                        this.ownerStrength = army.force;
+                        this._setOwnerStrength(army.force);
                         army.destroy();
                     }
                 },
@@ -72,12 +73,12 @@
                     if(army.force > this.ownerStrength) {
                         //New army can remove it
                         army.force = army.force - this.ownerStrength;
-                        this.ownerStrength = 0;
+                        this._setOwnerStrength(0);
                         this.currentOwner = null;
                         //And now start as if it was an empty node
                         this._handleArmyArrivingAtEmptyNode(army);
                     } else {
-                        this.ownerStrength -= army.force;
+                        this._setOwnerStrength(this.ownerStrength - army.force);
                         army.destroy();
                     }
                 },
@@ -86,10 +87,14 @@
                     if(!strength || strength < 0) {
                         strength = 0;
                     }
-                    this.ownerStrength = strength;
+                    this._setOwnerStrength(strength);
                     this.currentOwner = army.player;
                     this.partialOwner = null;
                     army.destroy();
+                },
+
+                _setOwnerStrength: function(newStrength) {
+                    this.ownerStrength = Math.min(newStrength, MAX_FORCE);
                 }
             };
 

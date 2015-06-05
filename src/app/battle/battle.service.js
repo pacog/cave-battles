@@ -1,17 +1,15 @@
 'use strict';
 (function() {
-    angular.module('caveBattles.battle', ['ngLodash', 'caveBattles.player', 'caveBattles.tunnel', 'caveBattles.army', 'caveBattles.node', 'caveBattles.battle-scheduler'])
+    angular.module('caveBattles.battle', ['ngLodash', 'caveBattles.player', 'caveBattles.tunnel', 'caveBattles.army', 'caveBattles.node', 'caveBattles.battle-scheduler', 'caveBattles.battle.constants'])
 
-    .service('Battle', ['lodash', 'Player', 'Tunnel', 'Army', 'Node', 'BattleScheduler', 'BattleEvents',
+    .service('Battle', ['lodash', 'Player', 'Tunnel', 'Army', 'Node', 'BattleScheduler', 'BattleEvents', 'DEFAULT_FORCE_TO_TAKE', 'FILL_NODES_EVERY',
 
-        function(_, Player, Tunnel, Army, Node, BattleScheduler, BattleEvents) {
+        function(_, Player, Tunnel, Army, Node, BattleScheduler, BattleEvents, DEFAULT_FORCE_TO_TAKE, FILL_NODES_EVERY) {
 
             var options;
             var battleInfoSubscribers = [];
             var battleInfo;
             var currentlySelectedNode = null;
-            var DEFAULT_FORCE_TO_TAKE = 0.5;
-            var FILL_NODES_EVERY = 1000; //ns
 
             var init = function(battleOptions) {
                 options = angular.copy(battleOptions);
@@ -80,13 +78,12 @@
             };
 
             var requestSelection = function(node) {
-                if(!!node.selected) {
-                    currentlySelectedNode = null;
-                    node.selected = false;
-                } else {
-                    removeCurrentSelection();
-                    currentlySelectedNode = node;
-                    node.selected = true;
+                removeCurrentSelection();
+                if(!node.selected) {
+                    if(node.currentOwner.isHuman()) {
+                        currentlySelectedNode = node;
+                        node.selected = true;
+                    }
                 }
                 selectionHasChanged();
             };
