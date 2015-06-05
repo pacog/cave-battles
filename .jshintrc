@@ -16,6 +16,7 @@
   "trailing": true,
   "smarttabs": true,
   "validthis": true,
+  "latedef": false,
   "globals": {
     "window": false,
     "angular": false,

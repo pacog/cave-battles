@@ -1,0 +1,10 @@
+- Use styleguide from John Papa
+    - Separate every module in different classes
+    - controller as syntax
+
+- Separate config, map and players in json files
+- Main menu
+- Deploy
+- Allow different maps to be chosen
+- Allow players to be chosen
+- More unit tests

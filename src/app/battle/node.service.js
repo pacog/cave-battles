@@ -9,11 +9,12 @@
             var INCREMENT_PER_FILL = 1;
             var MAX_FORCE = 50;
 
-            var NodeClass = function(options) {
+            var NodeClass = function(options, battleInfo) {
                 _.assign(this, options);
                 this.currentOwner = null;
                 this.partialOwner = null;
                 this._setOwnerStrength(0);
+                this.battleInfo = battleInfo;
             };
 
             NodeClass.prototype = {
@@ -54,6 +55,18 @@
                         //Army arriving at a partial enemy node
                         this._handleArmyArrivingAtEnemyNode(army);
                     }
+                },
+
+                canReachNode: function(otherNode) {
+                    if(!otherNode) {
+                        return false;
+                    }
+                    for(var i=0; i<this.battleInfo.tunnels.length; i++) {
+                        if(this.battleInfo.tunnels[i].connectsNodes(this, otherNode)) {
+                            return true;
+                        }
+                    }
+                    return false;
                 },
 
                 _handleArmyArrivingAtEmptyNode: function(army) {

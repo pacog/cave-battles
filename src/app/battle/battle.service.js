@@ -2,9 +2,9 @@
 (function() {
     angular.module('caveBattles.battle', ['ngLodash', 'caveBattles.player', 'caveBattles.tunnel', 'caveBattles.army', 'caveBattles.node', 'caveBattles.battle-scheduler', 'caveBattles.battle.constants'])
 
-    .service('Battle', ['lodash', 'Player', 'Tunnel', 'Army', 'Node', 'BattleScheduler', 'BattleEvents', 'DEFAULT_FORCE_TO_TAKE', 'FILL_NODES_EVERY',
+    .service('Battle', ['lodash', 'Player', 'Tunnel', 'Army', 'Node', 'BattleScheduler', 'BattleEvents', 'DEFAULT_FORCE_TO_TAKE', 'FILL_NODES_EVERY', 'PLAN_AI_EVERY',
 
-        function(_, Player, Tunnel, Army, Node, BattleScheduler, BattleEvents, DEFAULT_FORCE_TO_TAKE, FILL_NODES_EVERY) {
+        function(_, Player, Tunnel, Army, Node, BattleScheduler, BattleEvents, DEFAULT_FORCE_TO_TAKE, FILL_NODES_EVERY, PLAN_AI_EVERY) {
 
             var options;
             var battleInfoSubscribers = [];
@@ -21,7 +21,7 @@
 
                 battleInfo.nodes = {};
                 angular.forEach(options.map.nodes, function(nodeOptions) {
-                    battleInfo.nodes[nodeOptions.id] = new Node(nodeOptions);
+                    battleInfo.nodes[nodeOptions.id] = new Node(nodeOptions, battleInfo);
                 });
 
                 battleInfo.players = [];
@@ -43,6 +43,12 @@
                 BattleScheduler.addRecurringEvent(BattleEvents.FILL_NODES, {
                     nodes: battleInfo.nodes
                 }, FILL_NODES_EVERY);
+
+                BattleScheduler.addRecurringEvent(BattleEvents.PLAN_AI, {
+                    nodes: battleInfo.nodes,
+                    players: battleInfo.players,
+                    scheduler: BattleScheduler
+                }, PLAN_AI_EVERY);
             };
 
             var notifyBattleInfoChanged = function() {
@@ -80,7 +86,7 @@
             var requestSelection = function(node) {
                 removeCurrentSelection();
                 if(!node.selected) {
-                    if(node.currentOwner.isHuman()) {
+                    if(node.currentOwner && node.currentOwner.isHuman()) {
                         currentlySelectedNode = node;
                         node.selected = true;
                     }
@@ -98,20 +104,12 @@
 
             var selectionHasChanged = function() {
                 angular.forEach(battleInfo.nodes, function(node) {
-                    node.canBeReachedBySelectedNode = canNodeReachNode(currentlySelectedNode, node);
-                });
-            };
-
-            var canNodeReachNode = function(node1, node2) {
-                if(!node1 || !node2) {
-                    return false;
-                }
-                for(var i=0; i<battleInfo.tunnels.length; i++) {
-                    if(battleInfo.tunnels[i].connectsNodes(node1, node2)) {
-                        return true;
+                    node.canBeReachedBySelectedNode = false;
+                    //TODO: should create a 'NO_NODE' node so we avoid this if
+                    if(currentlySelectedNode && currentlySelectedNode.canReachNode(node)) {
+                        node.canBeReachedBySelectedNode = true;
                     }
-                }
-                return false;
+                });
             };
 
             var requestNodeForcesToGoToNode = function(destinationNode, desiredForce) {

@@ -1,11 +1,14 @@
 'use strict';
 (function() {
-    angular.module('caveBattles.battle-actions-factory', ['caveBattles.utils.timer'])
+    angular.module('caveBattles.battle-actions-factory', ['caveBattles.utils.timer', 'caveBattles.simple-ai'])
 
     .constant('BattleEvents', {
         // army, forceToTake (optional), destinationNode
         MOVE_ARMY: 'MOVE_ARMY',
-        FILL_NODES: 'FILL_NODES'
+        // list of all nodes
+        FILL_NODES: 'FILL_NODES',
+        // list of all nodes
+        PLAN_AI: 'PLAN_AI'
     })
 
 
@@ -123,9 +126,62 @@
     })
 
 
-    .factory('BattleActionsFactory', ['BattleEvents', 'MoveArmyAction', 'FillNodesAction',
+    .factory('PlanAIActionScheduled', function(Timer, SimpleAI) {
 
-        function(BattleEvents, MoveArmyAction, FillNodesAction) {
+        var PlanAIActionScheduledClass = function(params) {
+            this.init(params);
+        };
+
+        PlanAIActionScheduledClass.prototype = {
+            init: function(params) {
+                this.relatedOngoingEvents = params.relatedOngoingEvents;
+                this.nodes = params.nodes;
+                this.players = params.players;
+                this.scheduler = params.scheduler;
+                this.scheduledFor = Timer.getTime();
+            },
+            execute: function() {
+                var self = this;
+                angular.forEach(this.players, function(player) {
+                    if(player.isAI()) {
+                        var newAction = SimpleAI.getNextAction(player, self.nodes);
+                        if(newAction) { //TODO: create empty action to avoid this if
+                            this.scheduler.addEvent(newAction.name, newAction.params);
+                        }
+                    }
+                });
+            }
+        };
+
+        return PlanAIActionScheduledClass;
+    })
+
+    .factory('PlanAIAction', function(PlanAIActionScheduled) {
+
+        var PlanAIActionClass = function(params) {
+            this.init(params);
+        };
+
+        PlanAIActionClass.prototype = {
+            init: function(params) {
+                this.ongoingEvents = [];
+                this.scheduledEvents = [];
+
+                this.scheduledEvents.push(new PlanAIActionScheduled({
+                    nodes: params.nodes,
+                    players: params.players,
+                    relatedOngoingEvents: this.ongoingEvents,
+                    scheduler: params.scheduler
+                }));
+            }
+        };
+
+        return PlanAIActionClass;
+    })
+
+    .factory('BattleActionsFactory', ['BattleEvents', 'MoveArmyAction', 'FillNodesAction', 'PlanAIAction',
+
+        function(BattleEvents, MoveArmyAction, FillNodesAction, PlanAIAction) {
 
             var getAction = function(action, params) {
                 switch(action) {
@@ -133,6 +189,8 @@
                         return new MoveArmyAction(params);
                     case BattleEvents.FILL_NODES:
                         return new FillNodesAction(params);
+                    case BattleEvents.PLAN_AI:
+                        return new PlanAIAction(params);
                     default:
                         break;
                 }

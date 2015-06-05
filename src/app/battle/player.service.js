@@ -7,6 +7,7 @@
         function(_, IdGenerator) {
 
             var TYPE_HUMAN = 'human';
+            var TYPE_AI = 'AI';
 
             var PlayerClass = function(options) {
 
@@ -22,7 +23,12 @@
 
                 isHuman: function() {
                     return this.type === TYPE_HUMAN;
+                },
+
+                isAI: function() {
+                    return this.type === TYPE_AI;
                 }
+
             };
 
             return PlayerClass;
