@@ -62,8 +62,8 @@
         }
 
         function updateNodesThatCanBeReachedFromSelectedNode(currentlySelectedNode) {
-            for(var i=0; i<model.nodes.length; i++) {
-                model.nodes[i].updateCanBeReachedBySelectedNode(currentlySelectedNode);
+            for(var nodeId in model.nodes) {
+                model.nodes[nodeId].updateCanBeReachedBySelectedNode(currentlySelectedNode);
             }
         }
 

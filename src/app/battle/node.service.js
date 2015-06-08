@@ -70,7 +70,7 @@
                 },
 
                 updateCanBeReachedBySelectedNode: function(node) {
-                    node.canBeReachedBySelectedNode = false;
+                    this.canBeReachedBySelectedNode = false;
                     if(node && this.canReachNode(node)) {
                         this.canBeReachedBySelectedNode = true;
                     }
