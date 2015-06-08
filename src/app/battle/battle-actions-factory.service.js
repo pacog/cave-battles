@@ -12,7 +12,10 @@
         // list of all nodes
         FILL_NODES: 'FILL_NODES',
         // list of all nodes
-        PLAN_AI: 'PLAN_AI'
+        PLAN_AI: 'PLAN_AI',
+        //TODO: use this event instead of MOVE_ARMY everywhere
+        // originNode, destinatioNode
+        MOVE_ARMY_IA: 'MOVE_ARMY_IA'
     })
 
 
@@ -107,6 +110,56 @@
         return MoveArmyActionClass;
     })
 
+    .factory('MoveArmyIAActionScheduled', function(Timer, BattleEvents, BattleModel) {
+
+        var MoveArmyIAActionScheduledClass = function(params) {
+            this.init(params);
+        };
+
+        MoveArmyIAActionScheduledClass.prototype = {
+            init: function(params) {
+                this.relatedOngoingEvents = params.relatedOngoingEvents;
+                this.army = params.army;
+                this.scheduledFor = Timer.getTime();
+                this.destinationNode = params.destinationNode;
+                this.originNode = params.originNode;
+                this.scheduler = params.scheduler;
+            },
+            execute: function() {
+                var eventToHandleForceMovement = BattleModel.moveForcesBetweenNodesAndGetRelatedEvent(this.originNode, this.destinationNode);
+                if(eventToHandleForceMovement) {
+                    this.scheduler.addEvent(BattleEvents.MOVE_ARMY, eventToHandleForceMovement);
+                }
+            }
+        };
+
+        return MoveArmyIAActionScheduledClass;
+    })
+
+    .factory('MoveArmyIAAction', function(MoveArmyIAActionScheduled) {
+
+        var MoveArmyIAActionClass = function(params) {
+            this.init(params);
+        };
+
+        MoveArmyIAActionClass.prototype = {
+            init: function(params) {
+                this.ongoingEvents = [];
+                this.scheduledEvents = [];
+                if(params.originNode && params.destinationNode) {
+                    this.scheduledEvents.push(new MoveArmyIAActionScheduled({
+                        originNode: params.originNode,
+                        destinationNode: params.destinationNode,
+                        scheduler: params.scheduler,
+                        relatedOngoingEvents: this.ongoingEvents
+                    }));
+                }
+            }
+        };
+
+        return MoveArmyIAActionClass;
+    })
+
     .factory('FillNodesAction', function(FillNodesActionScheduled) {
 
         var FillNodesActionClass = function(params) {
@@ -141,11 +194,13 @@
                 this.scheduledFor = Timer.getTime();
             },
             execute: function() {
+                var self = this;
                 angular.forEach(BattleModel.model.players, function(player) {
                     if(player.isAI()) {
                         var newAction = SimpleAI.getNextAction(player, BattleModel.model.nodes);
                         if(newAction) { //TODO: create empty action to avoid this if
-                            this.scheduler.addEvent(newAction.name, newAction.params);
+                            newAction.params.scheduler = self.scheduler;
+                            self.scheduler.addEvent(newAction.name, newAction.params);
                         }
                     }
                 });
@@ -178,9 +233,9 @@
         return PlanAIActionClass;
     })
 
-    .factory('BattleActionsFactory', ['BattleEvents', 'MoveArmyAction', 'FillNodesAction', 'PlanAIAction',
+    .factory('BattleActionsFactory', ['BattleEvents', 'MoveArmyAction', 'FillNodesAction', 'PlanAIAction', 'MoveArmyIAAction',
 
-        function(BattleEvents, MoveArmyAction, FillNodesAction, PlanAIAction) {
+        function(BattleEvents, MoveArmyAction, FillNodesAction, PlanAIAction, MoveArmyIAAction) {
 
             var getAction = function(action, params) {
                 switch(action) {
@@ -190,6 +245,8 @@
                         return new FillNodesAction(params);
                     case BattleEvents.PLAN_AI:
                         return new PlanAIAction(params);
+                    case BattleEvents.MOVE_ARMY_IA:
+                        return new MoveArmyIAAction(params);
                     default:
                         break;
                 }

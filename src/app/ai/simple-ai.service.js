@@ -1,10 +1,14 @@
 (function() {
     'use strict';
 
-    angular.module('caveBattles.simple-ai', [])
-        .factory('SimpleAI', [SimpleAIService]);
+    angular.module('caveBattles.simple-ai', [
+        'caveBattles.battle-actions-factory'
+    ])
+        .factory('SimpleAI', SimpleAIService);
 
-    function SimpleAIService() {
+    SimpleAIService.$inject = ['BattleEvents'];
+
+    function SimpleAIService(BattleEvents) {
         var factory = {
             getNextAction: getNextAction
         };
@@ -15,7 +19,7 @@
             angular.forEach(nodes, function(node) {
                 if(isNodeFromPlayer(node, player)) {
                     var candidateAction = getBestActionFromNode(node, nodes, player);
-                    if(actionIsBest(candidateAction, currentBestAction)) {
+                    if(candidateAction && actionIsBest(candidateAction, currentBestAction)) {
                         currentBestAction = candidateAction;
                     }
                 }
@@ -42,7 +46,13 @@
         }
 
         function getMoveAction(originNode, destinationNode) {
-            //TODO: check if 
+            return {
+                name: BattleEvents.MOVE_ARMY_IA,
+                params: {
+                    originNode: originNode,
+                    destinationNode: destinationNode
+                }
+            };
         }
     }
 
