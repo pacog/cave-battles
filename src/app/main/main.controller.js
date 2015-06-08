@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('caveBattles.main', ['caveBattles.battle', 'caveBattles.battle-view'])
+angular.module('caveBattles.main', ['caveBattles.battle-handler', 'caveBattles.battle-view'])
 
-.controller('MainCtrl', function (Battle) {
+.controller('MainCtrl', function (BattleHandler) {
 
     var battleConfig = {
         map: {
@@ -118,5 +118,5 @@ angular.module('caveBattles.main', ['caveBattles.battle', 'caveBattles.battle-vi
         }
     };
 
-    Battle.init(battleConfig);
+    BattleHandler.init(battleConfig);
 });

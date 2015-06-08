@@ -42,11 +42,8 @@
         }
 
         function getMoveAction(originNode, destinationNode) {
-            
+            //TODO: check if 
         }
-
-        // return false;
-        //         
     }
 
 })();

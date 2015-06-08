@@ -1,22 +1,27 @@
-'use strict';
+(function() {
+    'use strict';
 
-angular.module('caveBattles.battle-view.node-controller', ['caveBattles.battle'])
+    angular.module('caveBattles.battle-view.node-controller', [
+        'caveBattles.battle-handler'
+    ])
 
-.controller('NodeCtrl', function ($scope, Battle) {
+    .controller('NodeCtrl', NodeController);
 
-    $scope.nodeClicked = function($event) {
-        $event.stopPropagation();
-        if($scope.nodeInfo.canBeReachedBySelectedNode) {
-            Battle.requestNodeForcesToGoToNode($scope.nodeInfo);
-        } else {
-            Battle.requestSelection($scope.nodeInfo);
-        }
-    };
+    function NodeController($scope, BattleHandler) {
+        $scope.nodeClicked = function($event) {
+            $event.stopPropagation();
+            if($scope.nodeInfo.canBeReachedBySelectedNode) {
+                BattleHandler.requestNodeForcesToGoToNode($scope.nodeInfo);
+            } else {
+                BattleHandler.requestSelection($scope.nodeInfo);
+            }
+        };
 
-    $scope.getTopFill = function() {
-        if(!$scope.nodeInfo.partialOwner) {
-            return 100;
-        }
-        return 100*(1 - ($scope.nodeInfo.ownerStrength/$scope.nodeInfo.DEFAULT_NODE_STRENGTH));
-    };
-});
+        $scope.getTopFill = function() {
+            if(!$scope.nodeInfo.partialOwner) {
+                return 100;
+            }
+            return 100*(1 - ($scope.nodeInfo.ownerStrength/$scope.nodeInfo.DEFAULT_NODE_STRENGTH));
+        };
+    }
+})();

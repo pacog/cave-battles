@@ -1,46 +1,53 @@
-'use strict';
+(function() {
+    'use strict';
 
-angular.module('caveBattles.battle-view', [
-    'caveBattles.battle',
-    'caveBattles.battle-view.node',
-    'caveBattles.battle-view.tunnel',
-    'caveBattles.battle-view.army'
-])
+    angular.module('caveBattles.battle-view', [
+        'caveBattles.battle-handler',
+        'caveBattles.battle-model',
+        'caveBattles.battle-view.node',
+        'caveBattles.battle-view.tunnel',
+        'caveBattles.battle-view.army'
+    ])
 
-.directive('battleView', function ($timeout, Battle) {
+    .directive('battleView', BattleViewDirective);
 
-    return {
-        restrict: 'E',
-        templateUrl: 'app/battle-view/battle-view.tpl.html',
-        replace: true,
-        link: function(scope) {
+    function BattleViewDirective($timeout, BattleHandler, BattleModel) {
 
-            var init = function() {
-                Battle.subscribeToChangeInBattleInfo(onBattleInfoChanged);
-            };
+        return {
+            restrict: 'E',
+            templateUrl: 'app/battle-view/battle-view.tpl.html',
+            replace: true,
+            link: function(scope) {
+                init();
 
-            var initBattleInfoAutoUpdater = function() {
-
-                function step() {
-                    if(!Battle.hasEnded()) {
-                        $timeout(Battle.update);
-                        window.requestAnimationFrame(step);
-                    }
+                function init() {
+                    BattleModel.subscribeToBattleModelInitiallised(onBattleModelInit);
                 }
 
-                window.requestAnimationFrame(step);
-            };
+                //TODO: should only be called once? If so, don't do it on changes but onReady
+                function initBattleInfoAutoUpdater() {
 
-            var onBattleInfoChanged = function(newBattleInfo) {
-                scope.battleInfo = newBattleInfo;
-                initBattleInfoAutoUpdater();
-            };
+                    function step() {
+                        if(!BattleHandler.hasEnded()) {
+                            $timeout(BattleHandler.update);
+                            window.requestAnimationFrame(step);
+                        }
+                    }
 
-            scope.onBackgroundClicked = function() {
-                Battle.removeCurrentSelection();
-            };
+                    window.requestAnimationFrame(step);
+                }
 
-            init();
-        }
-    };
-});
+                function onBattleModelInit() {
+                    scope.battleInfo = BattleModel.model;
+                    initBattleInfoAutoUpdater();
+                }
+
+                //TODO: use a controller with controllerAs syntax for this
+                scope.onBackgroundClicked = function() {
+                    BattleHandler.removeCurrentSelection();
+                };
+            }
+        };
+    }
+
+})();

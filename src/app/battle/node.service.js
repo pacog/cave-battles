@@ -9,12 +9,12 @@
             var INCREMENT_PER_FILL = 1;
             var MAX_FORCE = 50;
 
-            var NodeClass = function(options, battleInfo) {
+            var NodeClass = function(options, battleModel) {
                 _.assign(this, options);
                 this.currentOwner = null;
                 this.partialOwner = null;
                 this._setOwnerStrength(0);
-                this.battleInfo = battleInfo;
+                this.battleModel = battleModel;
             };
 
             NodeClass.prototype = {
@@ -61,12 +61,19 @@
                     if(!otherNode) {
                         return false;
                     }
-                    for(var i=0; i<this.battleInfo.tunnels.length; i++) {
-                        if(this.battleInfo.tunnels[i].connectsNodes(this, otherNode)) {
+                    for(var i=0; i<this.battleModel.model.tunnels.length; i++) {
+                        if(this.battleModel.model.tunnels[i].connectsNodes(this, otherNode)) {
                             return true;
                         }
                     }
                     return false;
+                },
+
+                updateCanBeReachedBySelectedNode: function(node) {
+                    node.canBeReachedBySelectedNode = false;
+                    if(node && this.canReachNode(node)) {
+                        this.canBeReachedBySelectedNode = true;
+                    }
                 },
 
                 _handleArmyArrivingAtEmptyNode: function(army) {

@@ -2,12 +2,12 @@
 
 describe('battle model', function(){
 
-    var Battle;
+    var BattleHandler;
     var battleInfo;
-    beforeEach(module('caveBattles.battle'));
+    beforeEach(module('caveBattles.battle-handler'));
 
-    beforeEach(inject(function(_Battle_) {
-        Battle = _Battle_;
+    beforeEach(inject(function(_BattleHandler_) {
+        BattleHandler = _BattleHandler_;
         var battleConfig = {
             map: {
                 nodes: [{
@@ -33,12 +33,13 @@ describe('battle model', function(){
                 }]
             }
         };
-        Battle.init(battleConfig);
-        battleInfo = Battle.getBattleInfo();
+        BattleHandler.init(battleConfig);
+        //TODO: get this using BattleModel, better yet separate tests from battle model
+        battleInfo = BattleHandler.getBattleInfo();
     }));
 
     it('should have a service', inject(function() {
-        expect(Battle).toBeTruthy();
+        expect(BattleHandler).toBeTruthy();
     }));
 
     it('should create the nodes correctly with the initial force', inject(function() {
@@ -50,46 +51,46 @@ describe('battle model', function(){
     describe('requestNodeForcesToGoToNode function', function(){
 
         it('should create an army with correct params and reduce node forces', inject(function() {
-            Battle.requestSelection(battleInfo.nodes['1']);
+            BattleHandler.requestSelection(battleInfo.nodes['1']);
             expect(battleInfo.armies.length).toBe(0);
-            Battle.requestNodeForcesToGoToNode(battleInfo.nodes['2']);
+            BattleHandler.requestNodeForcesToGoToNode(battleInfo.nodes['2']);
             expect(battleInfo.armies.length).toBe(1);
             expect(battleInfo.nodes['1'].currentOwner).toBe(battleInfo.players[0]);
             expect(battleInfo.nodes['1'].ownerStrength).toBe(10);
         }));
 
         it('should create an army with correct params and reduce node forces, with a fixed force', inject(function() {
-            Battle.requestSelection(battleInfo.nodes['1']);
+            BattleHandler.requestSelection(battleInfo.nodes['1']);
             expect(battleInfo.armies.length).toBe(0);
-            Battle.requestNodeForcesToGoToNode(battleInfo.nodes['2'], 1);
+            BattleHandler.requestNodeForcesToGoToNode(battleInfo.nodes['2'], 1);
             expect(battleInfo.armies.length).toBe(1);
             expect(battleInfo.nodes['1'].currentOwner).toBe(battleInfo.players[0]);
             expect(battleInfo.nodes['1'].ownerStrength).toBe(19);
         }));
 
         it('should create an army with correct params and reduce node forces, with a total force', inject(function() {
-            Battle.requestSelection(battleInfo.nodes['1']);
+            BattleHandler.requestSelection(battleInfo.nodes['1']);
             expect(battleInfo.armies.length).toBe(0);
-            Battle.requestNodeForcesToGoToNode(battleInfo.nodes['2'], 20);
+            BattleHandler.requestNodeForcesToGoToNode(battleInfo.nodes['2'], 20);
             expect(battleInfo.armies.length).toBe(1);
             expect(battleInfo.nodes['1'].currentOwner).toBe(battleInfo.players[0]);
             expect(battleInfo.nodes['1'].ownerStrength).toBe(0);
         }));
 
         it('should create an army with correct params and reduce node forces, with a more than total force', inject(function() {
-            Battle.requestSelection(battleInfo.nodes['1']);
+            BattleHandler.requestSelection(battleInfo.nodes['1']);
             expect(battleInfo.armies.length).toBe(0);
-            Battle.requestNodeForcesToGoToNode(battleInfo.nodes['2'], 300);
+            BattleHandler.requestNodeForcesToGoToNode(battleInfo.nodes['2'], 300);
             expect(battleInfo.armies.length).toBe(1);
             expect(battleInfo.nodes['1'].currentOwner).toBe(battleInfo.players[0]);
             expect(battleInfo.nodes['1'].ownerStrength).toBe(0);
         }));
 
         it('should do nothing when there are not available forces', inject(function() {
-            Battle.requestSelection(battleInfo.nodes['1']);
+            BattleHandler.requestSelection(battleInfo.nodes['1']);
             expect(battleInfo.armies.length).toBe(0);
             battleInfo.nodes['1'].ownerStrength = 0;
-            Battle.requestNodeForcesToGoToNode(battleInfo.nodes['2']);
+            BattleHandler.requestNodeForcesToGoToNode(battleInfo.nodes['2']);
             expect(battleInfo.armies.length).toBe(0);
             expect(battleInfo.nodes['1'].currentOwner).toBe(battleInfo.players[0]);
             expect(battleInfo.nodes['1'].ownerStrength).toBe(0);

@@ -1,6 +1,10 @@
 'use strict';
 (function() {
-    angular.module('caveBattles.battle-actions-factory', ['caveBattles.utils.timer', 'caveBattles.simple-ai'])
+    angular.module('caveBattles.battle-actions-factory', [
+        'caveBattles.utils.timer',
+        'caveBattles.simple-ai',
+        'caveBattles.battle-model'
+    ])
 
     .constant('BattleEvents', {
         // army, forceToTake (optional), destinationNode
@@ -55,7 +59,7 @@
         return MoveArmyActionScheduledClass;
     })
 
-    .factory('FillNodesActionScheduled', function(Timer) {
+    .factory('FillNodesActionScheduled', function(Timer, BattleModel) {
 
         var FillNodesActionScheduledClass = function(params) {
             this.init(params);
@@ -64,11 +68,10 @@
         FillNodesActionScheduledClass.prototype = {
             init: function(params) {
                 this.relatedOngoingEvents = params.relatedOngoingEvents;
-                this.nodes = params.nodes;
                 this.scheduledFor = Timer.getTime();
             },
             execute: function() {
-                angular.forEach(this.nodes, function(node) {
+                angular.forEach(BattleModel.model.nodes, function(node) {
                     node.fillNode();
                 });
             }
@@ -111,12 +114,11 @@
         };
 
         FillNodesActionClass.prototype = {
-            init: function(params) {
+            init: function() {
                 this.ongoingEvents = [];
                 this.scheduledEvents = [];
 
                 this.scheduledEvents.push(new FillNodesActionScheduled({
-                    nodes: params.nodes,
                     relatedOngoingEvents: this.ongoingEvents
                 }));
             }
@@ -126,7 +128,7 @@
     })
 
 
-    .factory('PlanAIActionScheduled', function(Timer, SimpleAI) {
+    .factory('PlanAIActionScheduled', function(Timer, BattleModel, SimpleAI) {
 
         var PlanAIActionScheduledClass = function(params) {
             this.init(params);
@@ -135,16 +137,13 @@
         PlanAIActionScheduledClass.prototype = {
             init: function(params) {
                 this.relatedOngoingEvents = params.relatedOngoingEvents;
-                this.nodes = params.nodes;
-                this.players = params.players;
                 this.scheduler = params.scheduler;
                 this.scheduledFor = Timer.getTime();
             },
             execute: function() {
-                var self = this;
-                angular.forEach(this.players, function(player) {
+                angular.forEach(BattleModel.model.players, function(player) {
                     if(player.isAI()) {
-                        var newAction = SimpleAI.getNextAction(player, self.nodes);
+                        var newAction = SimpleAI.getNextAction(player, BattleModel.model.nodes);
                         if(newAction) { //TODO: create empty action to avoid this if
                             this.scheduler.addEvent(newAction.name, newAction.params);
                         }
