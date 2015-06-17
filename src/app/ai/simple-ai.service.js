@@ -15,34 +15,45 @@
         return factory;
 
         function getNextAction(player, nodes) {
-            var currentBestAction = null;
+            var possibleActions = getAllPossibleActions(nodes, player);
+
+            return selectActionFromPossibleActions(possibleActions);
+        }
+
+        function getAllPossibleActions(nodes, player) {
+            var possibleActions = [];
+
             angular.forEach(nodes, function(node) {
                 if(isNodeFromPlayer(node, player)) {
-                    var candidateAction = getBestActionFromNode(node, nodes, player);
-                    if(candidateAction && actionIsBest(candidateAction, currentBestAction)) {
-                        currentBestAction = candidateAction;
-                    }
+                    possibleActions = possibleActions.concat(getAllActionsFromNode(node, nodes, player));
                 }
             });
-            return currentBestAction;
+
+            return possibleActions;
         }
 
         function isNodeFromPlayer(node, player) {
             return node.currentOwner && (node.currentOwner === player);
         }
 
-        function getBestActionFromNode(node, nodes, player) {
-            var bestAction = null;
-            angular.forEach(nodes, function(otherNode) {
-                if(node.canReachNode(otherNode) && !isNodeFromPlayer(otherNode, player) && node.ownerStrength > 20) {
-                    bestAction = getMoveAction(node, otherNode);
-                }
-            });
-            return bestAction;
+        function selectActionFromPossibleActions(possibleActions) {
+            var index = 0;
+            if(possibleActions.length > 1) {
+                index = Math.floor(Math.random()*possibleActions.length);
+            }
+            return possibleActions[index];
         }
 
-        function actionIsBest(oneAction, otherAction) {
-            return true;
+        function getAllActionsFromNode(node, nodes, player) {
+            var allActions = [];
+
+            angular.forEach(nodes, function(otherNode) {
+                if(node.canReachNode(otherNode) && !isNodeFromPlayer(otherNode, player) && node.ownerStrength > 20) {
+                    allActions.push(getMoveAction(node, otherNode));
+                }
+            });
+
+            return allActions;
         }
 
         function getMoveAction(originNode, destinationNode) {

@@ -114,6 +114,16 @@ angular.module('caveBattles.main', ['caveBattles.battle-handler', 'caveBattles.b
                 initialForce: 10,
                 number: '2',
                 type: 'AI'
+            },{
+                initialNode: '7',
+                initialForce: 10,
+                number: '3',
+                type: 'AI'
+            },{
+                initialNode: '3',
+                initialForce: 10,
+                number: '4',
+                type: 'AI'
             }]
         }
     };

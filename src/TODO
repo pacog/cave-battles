@@ -1,7 +1,3 @@
-- Create BattleModel, that contains info about armies and all that, battle handler that contains that model and the scheduler
-    - Fix node is accesible when selecting node
-    - Update tests
-
 - Use styleguide from John Papa
     - Separate every module in different classes
     - controller as syntax
@@ -12,3 +8,7 @@
 - Allow different maps to be chosen
 - Allow players to be chosen
 - More unit tests
+
+
+- Create BattleModel, that contains info about armies and all that, battle handler that contains that model and the scheduler
+    - Update tests
