@@ -1,7 +1,11 @@
-'use strict';
+(function() {
+    'use strict';
 
-angular.module('caveBattles.battle-view.army-controller', [])
+    angular.module('caveBattles.battle-view.army-controller', [])
+        .controller('ArmyController', ArmyController);
 
-.controller('ArmyCtrl', function () {
+    function ArmyController() {
 
-});
+    }
+
+})();

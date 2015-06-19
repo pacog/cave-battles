@@ -1,15 +1,19 @@
-'use strict';
+(function() {
+    'use strict';
 
-angular.module('caveBattles.battle-view.tunnel', [])
+    angular.module('caveBattles.battle-view.tunnel', [])
+        .directive('tunnel', TunnelDirective);
 
-.directive('tunnel', function () {
+    function TunnelDirective() {
 
-    return {
-        restrict: 'E',
-        templateUrl: 'app/battle-view/tunnel/tunnel.tpl.html',
-        scope: {
-            tunnelInfo: '='
-        },
-        replace: true
-    };
-});
+        return {
+            restrict: 'E',
+            templateUrl: 'app/battle-view/tunnel/tunnel.tpl.html',
+            scope: {
+                tunnelInfo: '='
+            },
+            replace: true
+        };
+    }
+
+})();

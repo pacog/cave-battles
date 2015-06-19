@@ -1,17 +1,17 @@
 <div
-    class='node player-{{nodeInfo.currentOwner.number}}'
+    class='node player-{{vm.nodeInfo.currentOwner.number}}'
     ng-class='{
-        "can-be-clicked": nodeInfo.canBeReachedBySelectedNode,
-        "selected": nodeInfo.selected,
-        "has-owner": !!nodeInfo.currentOwner
+        "can-be-clicked": vm.nodeInfo.canBeReachedBySelectedNode,
+        "selected": vm.nodeInfo.selected,
+        "has-owner": !!vm.nodeInfo.currentOwner
     }'
-    ng-style='{"top": nodeInfo.position.y + "%", "left": nodeInfo.position.x + "%"}',
-    ng-click='nodeClicked($event)'
+    ng-style='{"top": vm.nodeInfo.position.y + "%", "left": vm.nodeInfo.position.x + "%"}',
+    ng-click='vm.nodeClicked($event)'
 >
 
     <div class='node-inner'></div>
-    <div class='node-owner-strength' ng-show='!!nodeInfo.currentOwner' >{{nodeInfo.ownerStrength}}</div>
-    <div class='node-partial-owner-strength  player-{{nodeInfo.partialOwner.number}}' ng-show='!!nodeInfo.partialOwner' >
-        <div class='node-partial-owner-strength-inner' ng-style='{"top": getTopFill() + "%"}' ></div>
+    <div class='node-owner-strength' ng-show='!!vm.nodeInfo.currentOwner' >{{vm.nodeInfo.ownerStrength}}</div>
+    <div class='node-partial-owner-strength  player-{{vm.nodeInfo.partialOwner.number}}' ng-show='!!vm.nodeInfo.partialOwner' >
+        <div class='node-partial-owner-strength-inner' ng-style='{"top": vm.getTopFill() + "%"}' ></div>
     </div>
 </div>

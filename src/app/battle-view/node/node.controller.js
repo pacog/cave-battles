@@ -5,23 +5,28 @@
         'caveBattles.battle-handler'
     ])
 
-    .controller('NodeCtrl', NodeController);
+    .controller('NodeController', NodeController);
 
-    function NodeController($scope, BattleHandler) {
-        $scope.nodeClicked = function($event) {
+    function NodeController(BattleHandler) {
+        var vm = this;
+
+        vm.nodeClicked = nodeClicked;
+        vm.getTopFill = getTopFill;
+
+        function nodeClicked($event) {
             $event.stopPropagation();
-            if($scope.nodeInfo.canBeReachedBySelectedNode) {
-                BattleHandler.requestNodeForcesToGoToNode($scope.nodeInfo);
+            if(vm.nodeInfo.canBeReachedBySelectedNode) {
+                BattleHandler.requestNodeForcesToGoToNode(vm.nodeInfo);
             } else {
-                BattleHandler.requestSelection($scope.nodeInfo);
+                BattleHandler.requestSelection(vm.nodeInfo);
             }
-        };
+        }
 
-        $scope.getTopFill = function() {
-            if(!$scope.nodeInfo.partialOwner) {
+        function getTopFill() {
+            if(!vm.nodeInfo.partialOwner) {
                 return 100;
             }
-            return 100*(1 - ($scope.nodeInfo.ownerStrength/$scope.nodeInfo.DEFAULT_NODE_STRENGTH));
-        };
+            return 100*(1 - (vm.nodeInfo.ownerStrength/vm.nodeInfo.DEFAULT_NODE_STRENGTH));
+        }
     }
 })();
