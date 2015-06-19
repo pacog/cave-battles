@@ -1,49 +1,51 @@
-'use strict';
 (function() {
+
+    'use strict';
+
     angular.module('caveBattles.utils.geometry', [])
+        .factory('Geometry', Geometry);
 
-    .factory('Geometry',
+    function Geometry() {
 
-        function() {
+        var factory = {
+            distanceBetweenPoints: distanceBetweenPoints,
+            pointInBetween: pointInBetween,
+            inclinationFromTwoPointsDeg: inclinationFromTwoPointsDeg,
+            getPointInBetween: getPointInBetween
+        };
 
-            var distanceBetweenPoints = function( point1, point2 ) {
-                var xs = 0;
-                var ys = 0;
+        return factory;
 
-                xs = point2.x - point1.x;
-                xs = xs * xs;
+        function distanceBetweenPoints( point1, point2 ) {
+            var xs = 0;
+            var ys = 0;
 
-                ys = point2.y - point1.y;
-                ys = ys * ys;
+            xs = point2.x - point1.x;
+            xs = xs * xs;
 
-                return Math.sqrt( xs + ys );
-            };
+            ys = point2.y - point1.y;
+            ys = ys * ys;
 
-            var pointInBetween = function(point1, point2) {
-                return {
-                    x: (point1.x + point2.x)/2,
-                    y: (point1.y + point2.y)/2
-                };
-            };
-
-            var inclinationFromTwoPointsDeg = function(point1, point2) {
-                return Math.atan2(point2.y - point1.y, point2.x - point1.x) * 180 / Math.PI;
-            };
-
-            var getPointInBetween = function(point1, point2, percentage) {
-                return{
-                    x: point1.x + (point2.x - point1.x)*percentage,
-                    y: point1.y + (point2.y - point1.y)*percentage,
-                };
-            };
-
-            return {
-                distanceBetweenPoints: distanceBetweenPoints,
-                pointInBetween: pointInBetween,
-                inclinationFromTwoPointsDeg: inclinationFromTwoPointsDeg,
-                getPointInBetween: getPointInBetween
-            };
-
+            return Math.sqrt( xs + ys );
         }
-    );
+
+        function pointInBetween(point1, point2) {
+            return {
+                x: (point1.x + point2.x)/2,
+                y: (point1.y + point2.y)/2
+            };
+        }
+
+        function inclinationFromTwoPointsDeg(point1, point2) {
+            return Math.atan2(point2.y - point1.y, point2.x - point1.x) * 180 / Math.PI;
+        }
+
+        function getPointInBetween(point1, point2, percentage) {
+            return{
+                x: point1.x + (point2.x - point1.x)*percentage,
+                y: point1.y + (point2.y - point1.y)*percentage,
+            };
+        }
+    }
+
 })();

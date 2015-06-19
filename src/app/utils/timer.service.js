@@ -1,18 +1,19 @@
-'use strict';
 (function() {
+    'use strict';
+
     angular.module('caveBattles.utils.timer', [])
+        .factory('Timer', Timer);
 
-    .factory('Timer',
+    function Timer() {
 
-        function() {
+        var factory = {
+            getTime: getTime
+        };
 
-            var getTime = function() {
-                return (new Date()).getTime();
-            };
+        return factory;
 
-            return {
-                getTime: getTime
-            };
+        function getTime() {
+            return (new Date()).getTime();
         }
-    );
+    }
 })();

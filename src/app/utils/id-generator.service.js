@@ -1,19 +1,21 @@
-'use strict';
 (function() {
+    'use strict';
+
     angular.module('caveBattles.utils.id-generator', [])
+        .factory('IdGenerator', IdGenerator);
 
-    .service('IdGenerator',
+    function IdGenerator() {
 
-        function() {
+        var currentId = 42;
+        var factory = {
+            getNewId: getNewId
+        };
 
-            var currentId = 42;
-            var getNewId = function() {
-                return currentId++;
-            };
-            return {
-                getNewId: getNewId
-            };
+        return factory;
 
+        function getNewId() {
+            return currentId++;
         }
-    );
+
+    }
 })();
