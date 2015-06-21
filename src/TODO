@@ -1,14 +1,9 @@
-- Use styleguide from John Papa
-    - Separate every module in different classes
-    - controller as syntax
-
-- Separate config, map and players in json files
 - Main menu
-- Deploy
 - Allow different maps to be chosen
 - Allow players to be chosen
+- Separate config, map and players in json files
+
+- Update tests
 - More unit tests
 
-
-- Create BattleModel, that contains info about armies and all that, battle handler that contains that model and the scheduler
-    - Update tests
+- Use styleguide from John Papa in models

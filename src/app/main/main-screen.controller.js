@@ -1,14 +1,14 @@
 (function() {
     'use strict';
 
-    angular.module('caveBattles.main', [
+    angular.module('caveBattles.main-screen.controller', [
         'caveBattles.battle-handler',
         'caveBattles.battle-view',
         'battleCaves.battle-config'
     ])
-        .controller('MainController', MainController);
+        .controller('MainScreenController', MainScreenController);
 
-    function MainController(BattleHandler, BattleConfig) {
+    function MainScreenController(BattleHandler, BattleConfig) {
         BattleHandler.init(BattleConfig.get());
     }
 

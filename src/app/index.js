@@ -7,7 +7,7 @@
         'ngTouch',
         'ngSanitize',
         'restangular',
-        'caveBattles.main'
+        'caveBattles.main-screen'
         ]);
 })();
 
