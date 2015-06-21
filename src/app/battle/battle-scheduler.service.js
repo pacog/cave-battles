@@ -1,6 +1,11 @@
 'use strict';
 (function() {
-    angular.module('caveBattles.battle-scheduler', ['caveBattles.utils.ordered-list', 'caveBattles.battle-actions-factory', 'caveBattles.utils.timer'])
+    angular.module('caveBattles.battle-scheduler', [
+        'caveBattles.utils.ordered-list',
+        'caveBattles.battle-actions-factory',
+        'caveBattles.utils.timer',
+        'caveBattles.battle-events'
+    ])
 
     .service('BattleScheduler', ['$timeout', '$interval', 'OrderedList', 'BattleEvents', 'BattleActionsFactory', 'Timer',
         function($timeout, $interval, OrderedList, BattleEvents, BattleActionsFactory, Timer) {

@@ -3,7 +3,8 @@
     angular.module('caveBattles.battle-handler', [
         'caveBattles.battle-scheduler',
         'caveBattles.battle.constants',
-        'caveBattles.battle-model'
+        'caveBattles.battle-model',
+        'caveBattles.battle-events'
     ])
         .service('BattleHandler', BattleHandler);
 

@@ -2,7 +2,8 @@
     'use strict';
 
     angular.module('caveBattles.simple-ai', [
-        'caveBattles.battle-actions-factory'
+        'caveBattles.battle-actions-factory',
+        'caveBattles.battle-events'
     ])
         .factory('SimpleAI', SimpleAIService);
 
