@@ -9,7 +9,21 @@
         .controller('MainScreenController', MainScreenController);
 
     function MainScreenController(BattleHandler, BattleConfig) {
-        BattleHandler.init(BattleConfig.get());
+        var vm = this;
+        vm.battleStarted = false;
+        vm.startBattle = startBattle;
+        init();
+
+        function init() {
+            BattleConfig.getAllMaps().then(function(allMaps) {
+                vm.maps = allMaps;
+            });
+        }
+
+        function startBattle(map) {
+            vm.battleStarted = true;
+            BattleHandler.init(map);
+        }
     }
 
 })();

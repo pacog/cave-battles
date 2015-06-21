@@ -6,14 +6,18 @@
     ])
         .factory('BattleConfig', BattleConfig);
 
-    function BattleConfig(MAP1) {
+    function BattleConfig($q, MAP1) {
         var factory = {
-            get: get
+            getAllMaps: getAllMaps
         };
         return factory;
 
-        function get() {
-            return MAP1;
+        function getAllMaps() {
+            var willGetAllMaps = $q.defer();
+
+            willGetAllMaps.resolve([MAP1]);
+
+            return willGetAllMaps.promise;
         }
     }
 })();

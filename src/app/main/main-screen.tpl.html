@@ -1,3 +1,14 @@
 <div>
-    <battle-view></battle-view>
+
+    <div ng-if='!vm.battleStarted' class='main-menu'>
+        <h1 class='main-title'>Cave Battles</h1>
+
+        <ul class='map-list'>
+            <li class='map-list-item' ng-repeat='map in vm.maps'>
+                <button class='map-list-button' ng-click='vm.startBattle(map)'>{{map.name}}</button>
+            </li>
+        </ul>
+    </div>
+
+    <battle-view ng-if='vm.battleStarted'></battle-view>
 </div>

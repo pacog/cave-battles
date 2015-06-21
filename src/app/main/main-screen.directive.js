@@ -11,7 +11,8 @@
             restrict: 'E',
             templateUrl: 'app/main/main-screen.tpl.html',
             replace: true,
-            controller: 'MainScreenController'
+            controller: 'MainScreenController',
+            controllerAs: 'vm'
         };
     }
 })();
