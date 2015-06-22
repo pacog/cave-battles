@@ -2,7 +2,10 @@
     'use strict';
 
     angular.module('caveBattles.main-screen', [
-        'caveBattles.main-screen.controller'
+        'caveBattles.main-screen.controller',
+        'caveBattles.map-picker',
+        'caveBattles.battle-view',
+        'caveBattles.ai-trainer'
     ])
         .directive('mainScreen', MainScreenDirective);
 

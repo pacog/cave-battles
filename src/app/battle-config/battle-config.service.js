@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    angular.module('battleCaves.battle-config', [
+    angular.module('caveBattles.battle-config', [
         'caveBattles.maps.map1'
     ])
         .factory('BattleConfig', BattleConfig);

@@ -1,7 +1,9 @@
-- Main menu
-- Allow different maps to be chosen
+- Map list
 - Allow players to be chosen
-- Separate config, map and players in json files
+- Victory condition
+- Simulate battles
+
+- New style
 
 - Update tests
 - More unit tests

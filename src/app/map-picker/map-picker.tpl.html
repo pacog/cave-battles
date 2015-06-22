@@ -1,0 +1,5 @@
+<ul class='map-picker'>
+    <li class='map-picker-item' ng-repeat='map in vm.maps' ng-class='{"is-selected": vm.chosenMap === map}'>
+        <button class='button map-picker-button' ng-click='vm.chooseMap(map)'>{{map.name}}</button>
+    </li>
+</ul>

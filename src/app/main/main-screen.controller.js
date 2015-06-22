@@ -2,27 +2,30 @@
     'use strict';
 
     angular.module('caveBattles.main-screen.controller', [
-        'caveBattles.battle-handler',
-        'caveBattles.battle-view',
-        'battleCaves.battle-config'
+        'caveBattles.battle-handler'
     ])
         .controller('MainScreenController', MainScreenController);
 
-    function MainScreenController(BattleHandler, BattleConfig) {
+    function MainScreenController(BattleHandler) {
         var vm = this;
-        vm.battleStarted = false;
-        vm.startBattle = startBattle;
-        init();
+        vm.states = {
+            MAIN_SCREEN: 'main_screen',
+            AI_TRAINER: 'ai_trainer',
+            BATTLE: 'battle'
+        };
+        vm.state = vm.states.MAIN_SCREEN;
+        vm.play = play;
+        vm.goToAITrainer = goToAITrainer;
 
-        function init() {
-            BattleConfig.getAllMaps().then(function(allMaps) {
-                vm.maps = allMaps;
-            });
+        function play() {
+            if(vm.chosenMap) {
+                vm.state = vm.states.BATTLE;
+                BattleHandler.init(vm.chosenMap);
+            }
         }
 
-        function startBattle(map) {
-            vm.battleStarted = true;
-            BattleHandler.init(map);
+        function goToAITrainer() {
+            vm.state = vm.states.AI_TRAINER;
         }
     }
 

@@ -1,0 +1,8 @@
+.map-picker {
+    
+}
+    .map-picker-button {
+        .is-selected & {
+            background: red;
+        }
+    }

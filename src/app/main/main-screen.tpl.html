@@ -1,14 +1,16 @@
 <div>
 
-    <div ng-if='!vm.battleStarted' class='main-menu'>
+    <div ng-if='vm.state === vm.states.MAIN_SCREEN' class='main-menu'>
         <h1 class='main-title'>Cave Battles</h1>
 
-        <ul class='map-list'>
-            <li class='map-list-item' ng-repeat='map in vm.maps'>
-                <button class='map-list-button' ng-click='vm.startBattle(map)'>{{map.name}}</button>
-            </li>
-        </ul>
+        <map-picker chosen-map='vm.chosenMap'></map-picker>
+
+        <button class='button main-play-button' ng-disabled='!vm.chosenMap' ng-click='vm.play()'>Play!</button>
+
+        <a ng-click='vm.goToAITrainer()'>Go to AI trainer</a>
     </div>
 
-    <battle-view ng-if='vm.battleStarted'></battle-view>
+    <battle-view ng-if='vm.state === vm.states.BATTLE'></battle-view>
+
+    <ai-trainer ng-if='vm.state === vm.states.AI_TRAINER'></ai-trainer>
 </div>
