@@ -16,9 +16,10 @@
         vm.state = vm.states.MAIN_SCREEN;
         vm.play = play;
         vm.goToAITrainer = goToAITrainer;
+        vm.canBePlayed = canBePlayed;
 
         function play() {
-            if(vm.chosenMap && vm.chosenPlayers) {
+            if(canBePlayed()) {
                 vm.state = vm.states.BATTLE;
                 BattleHandler.init(vm.chosenMap, vm.chosenPlayers);
             }
@@ -26,6 +27,20 @@
 
         function goToAITrainer() {
             vm.state = vm.states.AI_TRAINER;
+        }
+
+        function canBePlayed() {
+            if(vm.chosenMap && vm.chosenPlayers) {
+                var realPlayers = 0;
+                for(var i=0; i<vm.chosenPlayers.length; i++) {
+                    if(vm.chosenPlayers[i].type !== 'none' ) {
+                        realPlayers++;
+                    }
+                }
+                return realPlayers > 1;
+            } else {
+                return false;
+            }
         }
     }
 

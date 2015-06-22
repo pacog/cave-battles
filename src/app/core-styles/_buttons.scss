@@ -11,4 +11,8 @@
     &:hover {
         background: $palette-base-3;
     }
+
+    &[disabled=disabled] {
+        opacity: 0.1;
+    }
 }
