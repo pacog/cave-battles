@@ -1,12 +1,13 @@
 <div>
 
     <div ng-if='vm.state === vm.states.MAIN_SCREEN' class='main-menu'>
+
         <h1 class='main-title'>Cave Battles</h1>
 
-        <map-picker chosen-map='vm.chosenMap'></map-picker>
-
-        <player-picker ng-if='vm.chosenMap' map='vm.chosenMap' chosen-players='vm.chosenPlayers'></player-picker>
-
+        <div class='main-screen-battle-config'>
+            <map-picker chosen-map='vm.chosenMap'></map-picker>
+            <player-picker ng-if='vm.chosenMap' map='vm.chosenMap' chosen-players='vm.chosenPlayers'></player-picker>
+        </div>
         <button class='button main-play-button' ng-disabled='!vm.chosenMap || !vm.chosenPlayers' ng-click='vm.play()'>Play!</button>
 
         <a ng-click='vm.goToAITrainer()'>Go to AI trainer</a>

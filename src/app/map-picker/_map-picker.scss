@@ -3,6 +3,6 @@
 }
     .map-picker-button {
         .is-selected & {
-            background: red;
+            background: $palette-base-3;
         }
     }

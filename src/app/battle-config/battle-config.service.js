@@ -2,11 +2,12 @@
     'use strict';
 
     angular.module('caveBattles.battle-config', [
-        'caveBattles.maps.map1'
+        'caveBattles.maps.map1',
+        'caveBattles.maps.map2'
     ])
         .factory('BattleConfig', BattleConfig);
 
-    function BattleConfig($q, MAP1) {
+    function BattleConfig($q, MAP1, MAP2) {
         var factory = {
             getAllMaps: getAllMaps
         };
@@ -15,7 +16,7 @@
         function getAllMaps() {
             var willGetAllMaps = $q.defer();
 
-            willGetAllMaps.resolve([MAP1]);
+            willGetAllMaps.resolve([MAP1, MAP2]);
 
             return willGetAllMaps.promise;
         }

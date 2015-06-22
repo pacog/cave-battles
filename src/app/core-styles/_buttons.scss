@@ -5,6 +5,10 @@
     text-align: left;
     width: 300px;
     font-size: 20px;
-    background: #343445;
+    background: $palette-base-2;
     cursor: pointer;
+    color: $palette-contrast;
+    &:hover {
+        background: $palette-base-3;
+    }
 }
