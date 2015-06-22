@@ -1,0 +1,24 @@
+.player-selector {
+    display: inline-flex;
+    margin-bottom: $grid-s;
+}
+    .player-selector-number {
+        margin-right: $grid-s;
+        padding: $grid-s $grid-m;
+        font-size: $grid-l;
+        background: $palette-base-2;
+    }
+
+    .player-selector-type {
+        flex: 1;
+    }
+
+        .player-selector-item {
+            display: inline-block;
+        }
+            .player-selector-button {
+                width: auto;
+                &.is-selected {
+                    background: $palette-base-3;
+                }
+            }

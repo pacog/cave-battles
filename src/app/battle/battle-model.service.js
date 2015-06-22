@@ -46,6 +46,9 @@
             });
 
             angular.forEach(options.map.players, function(playerOptions) {
+                if(playerOptions.type === 'none') {
+                    return;
+                }
                 var player = new Player(playerOptions);
 
                 model.players.push(player);

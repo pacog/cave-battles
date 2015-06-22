@@ -1,3 +1,5 @@
 <ul>
-    <li ng-repeat='player in vm.chosenPlayers'>{{player.number}} - {{player.type}}</li>
+    <li ng-repeat='player in vm.chosenPlayers'>
+        <player-selector player-info='player'></player-selector>
+    </li>
 </ul>

@@ -1,7 +1,8 @@
 (function() {
     'use strict';
     angular.module('caveBattles.player-picker', [
-        'caveBattles.player-picker.controller'
+        'caveBattles.player-picker.controller',
+        'caveBattles.player-selector'
     ])
         .directive('playerPicker', PlayerPickerDirective);
 

@@ -1,0 +1,14 @@
+<div class='player-selector'>
+    <div class='player-selector-number'>
+        {{vm.playerInfo.number}}
+    </div>
+    <ul  class='player-selector-type'>
+        <li class='player-selector-item' ng-repeat='playerType in vm.playerTypes'>
+            <button
+                class='button player-selector-button'
+                ng-class='{"is-selected": playerType === vm.playerInfo.type}'
+                ng-click='vm.selectPlayerType(playerType)'
+            >{{playerType}}</button>
+        </li>
+    </ul>
+</div>
