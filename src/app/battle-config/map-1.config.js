@@ -9,7 +9,8 @@
                     position: {
                         x: 10,
                         y: 10
-                    }
+                    },
+                    initialNode: true
                 },{
                     id: '2',
                     position: {
@@ -21,7 +22,8 @@
                     position: {
                         x: 90,
                         y: 10
-                    }
+                    },
+                    initialNode: true
                 },{
                     id: '4',
                     position: {
@@ -45,7 +47,8 @@
                     position: {
                         x: 10,
                         y: 90
-                    }
+                    },
+                    initialNode: true
                 },{
                     id: '8',
                     position: {
@@ -57,7 +60,8 @@
                     position: {
                         x: 90,
                         y: 90
-                    }
+                    },
+                    initialNode: true
                 }],
                 tunnels: [{
                     from: '1',
@@ -101,30 +105,7 @@
                 },{
                     from: '8',
                     to: '5'
-                }],
-                players: [{
-                    initialNode: '1',
-                    initialForce: 10,
-                    number: '1',
-                    type: 'human'
-                },{
-                    initialNode: '9',
-                    initialForce: 10,
-                    number: '2',
-                    type: 'AI'
-                }
-                // ,{
-                //     initialNode: '7',
-                //     initialForce: 10,
-                //     number: '3',
-                //     type: 'AI'
-                // },{
-                //     initialNode: '3',
-                //     initialForce: 10,
-                //     number: '4',
-                //     type: 'AI'
-                // }
-                ]
+                }]
             }
         });
 })();

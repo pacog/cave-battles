@@ -18,9 +18,9 @@
         vm.goToAITrainer = goToAITrainer;
 
         function play() {
-            if(vm.chosenMap) {
+            if(vm.chosenMap && vm.chosenPlayers) {
                 vm.state = vm.states.BATTLE;
-                BattleHandler.init(vm.chosenMap);
+                BattleHandler.init(vm.chosenMap, vm.chosenPlayers);
             }
         }
 

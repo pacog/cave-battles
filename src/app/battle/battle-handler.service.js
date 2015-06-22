@@ -26,8 +26,9 @@
 
         return publicInterface;
 
-        function init(battleOptions) {
+        function init(battleOptions, playerOptions) {
             options = angular.copy(battleOptions);
+            options.map.players = playerOptions;
             BattleModel.init(options);
             initRecurringEvents();
         }

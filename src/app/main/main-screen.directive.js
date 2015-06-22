@@ -5,7 +5,8 @@
         'caveBattles.main-screen.controller',
         'caveBattles.map-picker',
         'caveBattles.battle-view',
-        'caveBattles.ai-trainer'
+        'caveBattles.ai-trainer',
+        'caveBattles.player-picker'
     ])
         .directive('mainScreen', MainScreenDirective);
 
