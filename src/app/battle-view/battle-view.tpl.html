@@ -1,12 +1,16 @@
-<div class='battle-view' ng-click='onBackgroundClicked()'>
-    <div ng-repeat='node in battleInfo.nodes'>
+<div class='battle-view' ng-click='vm.onBackgroundClicked()' >
+    <div ng-repeat='node in vm.battleInfo.nodes'>
         <node node-info='node'></node>
     </div>
-    <div ng-repeat='tunnel in battleInfo.tunnels'>
+    <div ng-repeat='tunnel in vm.battleInfo.tunnels'>
         <tunnel tunnel-info='tunnel'></tunnel>
     </div>
 
-    <div ng-repeat='army in battleInfo.armies'>
+    <div ng-repeat='army in vm.battleInfo.armies'>
         <army army-info='army'></army>
+    </div>
+
+    <div class='battle-view-finished' ng-if='vm.battleFinished'>
+        Battle finished!
     </div>
 </div>

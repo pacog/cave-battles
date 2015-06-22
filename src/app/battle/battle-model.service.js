@@ -30,7 +30,8 @@
             model: model,
             subscribeToBattleModelInitiallised: subscribeToBattleModelInitiallised,
             unsubscribeToBattleModelInitiallised: unsubscribeToBattleModelInitiallised,
-            moveForcesBetweenNodesAndGetRelatedEvent: moveForcesBetweenNodesAndGetRelatedEvent
+            moveForcesBetweenNodesAndGetRelatedEvent: moveForcesBetweenNodesAndGetRelatedEvent,
+            hasEnded: hasEnded
         };
 
         return factory;
@@ -115,7 +116,21 @@
                 destinationNode: destinationNode,
                 force: desiredForce
             };
-            
+        }
+
+        function hasEnded() {
+            var currentPlayers = {};
+            for(var i=0; i<model.armies.length; i++) {
+                if(!model.armies[i].deleted) {
+                    currentPlayers[model.armies[i].id] = true;
+                }
+            }
+            angular.forEach(model.nodes, function(node) {
+                if(node.currentOwner) {
+                    currentPlayers[node.currentOwner.id] = true;
+                }
+            });
+            return _.size(currentPlayers) <= 1;
         }
 
     }

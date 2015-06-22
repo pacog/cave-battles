@@ -80,7 +80,7 @@
         }
 
         function hasEnded() {
-            return false;
+            return BattleModel.hasEnded();
         }
     }
 })();

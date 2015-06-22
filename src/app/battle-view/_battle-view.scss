@@ -5,3 +5,13 @@
     position: relative;
     margin: 0 auto;
 }
+
+.battle-view-finished {
+    background: rgba($background-color, 0.4);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    color: white;
+}
