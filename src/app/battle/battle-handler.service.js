@@ -21,7 +21,8 @@
             hasEnded: hasEnded,
             update: update,
             requestNodeForcesToGoToNode: requestNodeForcesToGoToNode,
-            removeCurrentSelection: removeCurrentSelection
+            removeCurrentSelection: removeCurrentSelection,
+            fastForwardAndExecuteNextAction: fastForwardAndExecuteNextAction
         };
 
         return publicInterface;
@@ -77,6 +78,10 @@
                 BattleScheduler.addEvent(BattleEvents.MOVE_ARMY, eventToHandleForceMovement);
             }
             removeCurrentSelection();
+        }
+
+        function fastForwardAndExecuteNextAction() {
+            BattleScheduler.fastForwardToFirstEvent();
         }
 
         function hasEnded() {

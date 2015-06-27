@@ -2,7 +2,9 @@
     'use strict';
 
     angular.module('caveBattles.ai-trainer', [
-        'caveBattles.ai-trainer.controller'
+        'caveBattles.ai-trainer.controller',
+        'caveBattles.player-picker',
+        'caveBattles.map-picker'
     ])
         .directive('aiTrainer', AITrainerDirective);
 

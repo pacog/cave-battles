@@ -1,1 +1,4 @@
-ai-trainer.tpl.html
+<map-picker chosen-map='vm.chosenMap'></map-picker>
+<player-picker ng-if='vm.chosenMap' map='vm.chosenMap' chosen-players='vm.chosenPlayers'></player-picker>
+
+<button class='button' ng-click='vm.runTrainer()'>Run!</button>

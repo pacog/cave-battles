@@ -10,7 +10,7 @@
         </div>
         <button class='button main-play-button' ng-disabled='!vm.canBePlayed()' ng-click='vm.play()'>Play!</button>
 
-        <a ng-click='vm.goToAITrainer()'>Go to AI trainer</a>
+        <button class='button' ng-click='vm.goToAITrainer()'>Go to AI trainer</button>
     </div>
 
     <battle-view ng-if='vm.state === vm.states.BATTLE'></battle-view>
