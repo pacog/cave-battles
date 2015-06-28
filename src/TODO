@@ -1,8 +1,9 @@
-http://coolors.co/bb2e12-0e0b02-f7f7f5-606c38-235789
-- Simulate battles
-- Different AI
-
-- New style
+- Color grunge circle on top of player number
+- Show map preview and player numbers on it
+- Transparent title with some cool background
+- Pause and main menu buttons
+- Victory modal
+- Visuals for gameplay
 
 - Abstract classes for recurring events and general battle actions
 
@@ -13,3 +14,5 @@ http://coolors.co/bb2e12-0e0b02-f7f7f5-606c38-235789
 - More unit tests
 
 - Use styleguide from John Papa in models
+
+Color Palette: http://coolors.co/bb2e12-0e0b02-f7f7f5-606c38-235789

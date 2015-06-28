@@ -20,7 +20,7 @@
         }
             .player-selector-button {
                 width: auto;
-                opacity: 0.7;
+                opacity: $default-opacity-not-selected;
                 &.is-selected {
                     opacity: 1;
                 }
@@ -38,7 +38,7 @@
             .ai-selector-button {
                 border: 0;
                 width: auto;
-                opacity: 0.7;
+                opacity: $default-opacity-not-selected;
                 &.is-selected {
                     opacity: 1;
                 }
