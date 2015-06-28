@@ -2,13 +2,29 @@
     <div class='player-selector-number'>
         {{vm.playerInfo.number}}
     </div>
-    <ul  class='player-selector-type'>
-        <li class='player-selector-item' ng-repeat='playerType in vm.playerTypes'>
-            <button
-                class='button player-selector-button'
-                ng-class='{"is-selected": playerType === vm.playerInfo.type}'
-                ng-click='vm.selectPlayerType(playerType)'
-            >{{playerType}}</button>
-        </li>
-    </ul>
+    <div class='player-selector-type'>
+        <ul>
+            <li class='player-selector-item' ng-repeat='playerType in vm.playerTypes'>
+                <button
+                    class='button player-selector-button'
+                    ng-class='{"is-selected": playerType === vm.playerInfo.type}'
+                    ng-click='vm.selectPlayerType(playerType)'
+                >{{playerType}}</button>
+
+            </li>
+        </ul>
+        <div class='ai-selector' ng-if='vm.playerInfo.type === "AI"'>
+            <ul>
+                <li class='ai-selector-item' ng-repeat='ai in vm.availableAIs'>
+                    <button
+                        class='button ai-selector-button'
+                        ng-class='{"is-selected": ai === vm.playerInfo.typeOfAI}'
+                        ng-click='vm.selectAIType(ai)'
+                    >{{ai.name}}</button>
+
+                </li>
+            </ul>
+        </div>
+    </div>
+
 </div>

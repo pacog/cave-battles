@@ -34,6 +34,9 @@
     }
 .main-go-to-trainer-button {
     position: absolute;
-    bottom: $grid-m;
+    top: $grid-m;
     right: $grid-m;
+    border: 0;
+    font-size: 14px;
+    width: auto;
 }

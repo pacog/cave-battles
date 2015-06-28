@@ -1,17 +1,17 @@
 (function() {
     'use strict';
 
-    angular.module('caveBattles.simple-ai', [
+    angular.module('caveBattles.not-so-simple-ai', [
         'caveBattles.battle-actions-factory',
         'caveBattles.battle-events'
     ])
-        .factory('SimpleAI', SimpleAIService);
+        .factory('NotSoSimpleAI', NotSoSimpleAIService);
 
-    SimpleAIService.$inject = ['BattleEvents'];
+    NotSoSimpleAIService.$inject = ['BattleEvents'];
 
-    function SimpleAIService(BattleEvents) {
+    function NotSoSimpleAIService(BattleEvents) {
         var factory = {
-            name: 'Simple AI',
+            name: 'Not So Simple AI',
             getNextAction: getNextAction
         };
         return factory;
