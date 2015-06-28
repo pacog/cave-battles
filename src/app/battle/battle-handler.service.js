@@ -35,10 +35,14 @@
         }
 
         function initRecurringEvents() {
-            BattleScheduler.addRecurringEvent(BattleEvents.FILL_NODES, {}, FILL_NODES_EVERY);
-            BattleScheduler.addRecurringEvent(BattleEvents.PLAN_AI, {
+            BattleScheduler.addEvent(BattleEvents.FILL_NODES, {
+                repeatEvery: FILL_NODES_EVERY,
                 scheduler: BattleScheduler
-            }, PLAN_AI_EVERY);
+            });
+            BattleScheduler.addEvent(BattleEvents.PLAN_AI, {
+                scheduler: BattleScheduler,
+                repeatEvery: PLAN_AI_EVERY
+            });
         }
 
         function update() {

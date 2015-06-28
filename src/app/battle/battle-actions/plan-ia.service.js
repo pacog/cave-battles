@@ -26,7 +26,9 @@
                 nodes: params.nodes,
                 players: params.players,
                 relatedOngoingEvents: this.ongoingEvents,
-                scheduler: params.scheduler
+                scheduler: params.scheduler,
+                repeatEvery: params.repeatEvery,
+                scheduledFor: params.scheduledFor
             }));
         }
     }

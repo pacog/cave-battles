@@ -18,12 +18,15 @@
 
         return FillNodesActionClass;
 
-        function init() {
+        function init(params) {
             this.ongoingEvents = [];
             this.scheduledEvents = [];
 
             this.scheduledEvents.push(new FillNodesActionScheduled({
-                relatedOngoingEvents: this.ongoingEvents
+                relatedOngoingEvents: this.ongoingEvents,
+                scheduler: params.scheduler,
+                repeatEvery: params.repeatEvery,
+                scheduledFor: params.scheduledFor
             }));
         }
     }

@@ -4,11 +4,12 @@
     angular.module('caveBattles.actions.plan-ia-scheduled', [
         'caveBattles.utils.timer',
         'caveBattles.simple-ai',
-        'caveBattles.battle-model'
+        'caveBattles.battle-model',
+        'caveBattles.battle-events'
     ])
         .factory('PlanAIActionScheduled', PlanAIActionScheduled);
 
-    function PlanAIActionScheduled(Timer, BattleModel, SimpleAI) {
+    function PlanAIActionScheduled(Timer, BattleModel, SimpleAI, BattleEvents) {
 
         var PlanAIActionScheduledClass = function(params) {
             this.init(params);
@@ -24,11 +25,13 @@
         function init(params) {
             this.relatedOngoingEvents = params.relatedOngoingEvents;
             this.scheduler = params.scheduler;
-            this.scheduledFor = Timer.getTime();
+            this.scheduledFor = params.scheduledFor || Timer.getTime();
+            this.repeatEvery = params.repeatEvery;
         }
 
         function execute() {
             var self = this;
+
             angular.forEach(BattleModel.model.players, function(player) {
                 if(player.isAI()) {
                     var newAction = SimpleAI.getNextAction(player, BattleModel.model.nodes);
@@ -37,6 +40,12 @@
                         self.scheduler.addEvent(newAction.name, newAction.params);
                     }
                 }
+            });
+
+            self.scheduler.addEvent(BattleEvents.PLAN_AI, {
+                scheduler: self.scheduler,
+                repeatEvery: self.repeatEvery,
+                scheduledFor: Timer.getTime() + self.repeatEvery
             });
         }
     }

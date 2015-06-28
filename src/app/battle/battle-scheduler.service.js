@@ -13,12 +13,12 @@
 
             var service = {
                 addEvent: addEvent,
-                addRecurringEvent: addRecurringEvent,
                 updateBattleInfo: updateBattleInfo,
                 fastForwardToFirstEvent: fastForwardToFirstEvent
             };
             var eventsHappeningNow = new OrderedList({orderBy: 'timeAdded'});
-            var scheduledEvents = new OrderedList({orderBy: 'scheduledFor'}); //TODO converto to class that handlesa all
+            var scheduledEvents = new OrderedList({orderBy: 'scheduledFor'}); //TODO converto to class that handles all
+            var recurringEvents = new OrderedList({orderBy: 'timeAdded'});
             var currentTimeout = null;
 
             return service;
@@ -32,12 +32,6 @@
                     scheduledEvents.add(actionEvents.scheduledEvents[i]);
                 }
                 resetScheduleTimeout();
-            }
-
-            function addRecurringEvent(action, params, everyMilliseconds) {
-                $interval(function() {
-                    addEvent(action, params);
-                }, everyMilliseconds);
             }
 
             function updateBattleInfo() {
