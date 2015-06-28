@@ -7,19 +7,21 @@
         'caveBattles.tunnel',
         'caveBattles.army',
         'caveBattles.node',
-        'caveBattles.battle.constants'
+        'caveBattles.battle.constants',
+        'caveBattles.utils.timer'
     ])
         .factory('BattleModel', BattleModel);
 
-    BattleModel.$inject = ['lodash', 'Player', 'Tunnel', 'Army', 'Node', 'DEFAULT_FORCE_TO_TAKE'];
+    BattleModel.$inject = ['lodash', 'Player', 'Tunnel', 'Army', 'Node', 'Timer', 'DEFAULT_FORCE_TO_TAKE'];
 
-    function BattleModel(_, Player, Tunnel, Army, Node, DEFAULT_FORCE_TO_TAKE) {
+    function BattleModel(_, Player, Tunnel, Army, Node, Timer, DEFAULT_FORCE_TO_TAKE) {
 
         var model = {
             nodes: null,
             players: null,
             armies: null,
-            tunnels: null
+            tunnels: null,
+            startingTime: null
         };
         var battleModelInitSubscribers = [];
 
@@ -31,7 +33,8 @@
             subscribeToBattleModelInitiallised: subscribeToBattleModelInitiallised,
             unsubscribeToBattleModelInitiallised: unsubscribeToBattleModelInitiallised,
             moveForcesBetweenNodesAndGetRelatedEvent: moveForcesBetweenNodesAndGetRelatedEvent,
-            hasEnded: hasEnded
+            hasEnded: hasEnded,
+            getStats: getStats
         };
 
         return factory;
@@ -41,6 +44,7 @@
             model.players = [];
             model.armies = [];
             model.tunnels = [];
+            model.startingTime = Timer.getTime();
 
             angular.forEach(options.map.nodes, function(nodeOptions) {
                 model.nodes[nodeOptions.id] = new Node(nodeOptions, factory);
@@ -131,6 +135,31 @@
                 }
             });
             return _.size(currentPlayers) <= 1;
+        }
+
+        function getStats() {
+            return {
+                hasEnded: hasEnded(),
+                winner: getWinner(),
+                runningTime: getRunningTime()
+            };
+        }
+
+        function getWinner() {
+            var winner = null;
+            if(hasEnded()) {
+                angular.forEach(model.nodes, function(node) {
+                    if(node.currentOwner) {
+                        winner = node.currentOwner;
+                    }
+                });
+            }
+
+            return winner;
+        }
+
+        function getRunningTime() {
+            return Timer.getTime() - model.startingTime;
         }
 
     }

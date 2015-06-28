@@ -7,7 +7,7 @@
         .factory('BattleSimulator', BattleSimulator);
 
     function BattleSimulator(BattleHandler) {
-        var MAX_EXECUTION_TIME = 10000; //ms
+        var MAX_EXECUTION_TIME = 1000; //ms
         var factory = {
             simulate: simulate
         };
@@ -20,7 +20,7 @@
                 BattleHandler.fastForwardAndExecuteNextAction();
             }
 
-            return {};
+            return BattleHandler.getBattleModel().getStats();
         }
 
     }

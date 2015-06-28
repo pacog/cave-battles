@@ -2,3 +2,7 @@
 <player-picker ng-if='vm.chosenMap' map='vm.chosenMap' chosen-players='vm.chosenPlayers'></player-picker>
 
 <button class='button' ng-click='vm.runTrainer()'>Run!</button>
+
+<ul>
+    <li ng-repeat='result in vm.results'>{{result.winner.number || 'No winner'}} - {{result.runningTime/1000 | number:3}}ms</li>
+</ul>

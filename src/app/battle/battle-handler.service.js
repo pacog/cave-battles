@@ -22,7 +22,8 @@
             update: update,
             requestNodeForcesToGoToNode: requestNodeForcesToGoToNode,
             removeCurrentSelection: removeCurrentSelection,
-            fastForwardAndExecuteNextAction: fastForwardAndExecuteNextAction
+            fastForwardAndExecuteNextAction: fastForwardAndExecuteNextAction,
+            getBattleModel: getBattleModel
         };
 
         return publicInterface;
@@ -30,6 +31,7 @@
         function init(battleOptions, playerOptions) {
             options = angular.copy(battleOptions);
             options.map.players = playerOptions;
+            BattleScheduler.restart();
             BattleModel.init(options);
             initRecurringEvents();
         }
@@ -92,6 +94,10 @@
 
         function hasEnded() {
             return BattleModel.hasEnded();
+        }
+
+        function getBattleModel() {
+            return BattleModel;
         }
     }
 })();

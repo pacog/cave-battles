@@ -8,20 +8,28 @@
         'caveBattles.battle-events'
     ])
 
-    .service('BattleScheduler', ['$timeout', '$interval', 'OrderedList', 'BattleEvents', 'BattleActionsFactory', 'Timer',
+    .factory('BattleScheduler', ['$timeout', '$interval', 'OrderedList', 'BattleEvents', 'BattleActionsFactory', 'Timer',
         function($timeout, $interval, OrderedList, BattleEvents, BattleActionsFactory, Timer) {
-
             var service = {
+                restart: restart,
                 addEvent: addEvent,
                 updateBattleInfo: updateBattleInfo,
                 fastForwardToFirstEvent: fastForwardToFirstEvent,
                 executeFirstElementInList: executeFirstElementInList
             };
-            var eventsHappeningNow = new OrderedList({orderBy: 'timeAdded'});
-            var scheduledEvents = new OrderedList({orderBy: 'scheduledFor'});
-            var currentTimeout = null;
+
+            var eventsHappeningNow;
+            var scheduledEvents;
+            var currentTimeout;
 
             return service;
+
+            function restart() {
+                Timer.restart();
+                eventsHappeningNow = new OrderedList({orderBy: 'timeAdded'});
+                scheduledEvents = new OrderedList({orderBy: 'scheduledFor'});
+                currentTimeout = null;
+            }
 
             function addEvent(action, params) {
                 var actionEvents = BattleActionsFactory.getAction(action, params);

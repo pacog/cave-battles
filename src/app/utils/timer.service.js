@@ -10,10 +10,15 @@
 
         var factory = {
             getTime: getTime,
-            setTime: setTime
+            setTime: setTime,
+            restart: restart
         };
 
         return factory;
+
+        function restart() {
+            artificallySetTime = null;
+        }
 
         function getTime() {
             return artificallySetTime || (new Date()).getTime();
