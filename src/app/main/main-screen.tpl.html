@@ -1,19 +1,21 @@
 <div>
 
     <div ng-if='vm.state === vm.states.MAIN_SCREEN' class='main-menu'>
+        <div class='main-menu-bg'></div>
+        <div class='main-menu-content'>
+            <h1 class='main-title'>Cave Battles</h1>
 
-        <h1 class='main-title'>Cave Battles</h1>
+            <div class='main-screen-battle-config'>
+                <map-picker chosen-map='vm.chosenMap'></map-picker>
+                <player-picker ng-if='vm.chosenMap' map='vm.chosenMap' chosen-players='vm.chosenPlayers'></player-picker>
+            </div>
 
-        <div class='main-screen-battle-config'>
-            <map-picker chosen-map='vm.chosenMap'></map-picker>
-            <player-picker ng-if='vm.chosenMap' map='vm.chosenMap' chosen-players='vm.chosenPlayers'></player-picker>
+            <div class='main-play-button-container'>
+                <button class='button main-play-button' ng-disabled='!vm.canBePlayed()' ng-click='vm.play()'>Play!</button>
+            </div>
+
+            <button class='button main-go-to-trainer-button' ng-click='vm.goToAITrainer()'>Go to AI trainer</button>
         </div>
-
-        <div class='main-play-button-container'>
-            <button class='button main-play-button' ng-disabled='!vm.canBePlayed()' ng-click='vm.play()'>Play!</button>
-        </div>
-
-        <button class='button main-go-to-trainer-button' ng-click='vm.goToAITrainer()'>Go to AI trainer</button>
     </div>
 
     <battle-view ng-if='vm.state === vm.states.BATTLE'></battle-view>

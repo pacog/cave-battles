@@ -1,13 +1,22 @@
 .main-menu {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
     text-align: center;
     color: $whitish;
-    background: $blackish;
 }
+    .main-menu-bg {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1;
+        background: url('../assets/images/grunge.svg');
+        background-size: cover;
+        opacity: 0.1;
+    }
+    .main-menu-content {
+        z-index: 2;
+        position: relative;
+    }
 .main-title {
     font-size: 80px;
     margin: 2*$grid-l;
