@@ -1,8 +1,13 @@
-- Victory condition
+
 - Simulate battles
 - Different AI
 
 - New style
+
+- Abstract classes for recurring events and general battle actions
+
+- Nodes with levels
+- Collisions in tunnels
 
 - Update tests
 - More unit tests
