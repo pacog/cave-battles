@@ -86,6 +86,8 @@
 
         function fastForwardAndExecuteNextAction() {
             BattleScheduler.fastForwardToFirstEvent();
+            BattleScheduler.executeFirstElementInList();
+            update();
         }
 
         function hasEnded() {

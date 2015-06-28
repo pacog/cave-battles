@@ -14,12 +14,12 @@
         return factory;
 
         function simulate(battleInfo, playerInfo) {
-            debugger;
             BattleHandler.init(battleInfo, playerInfo);
             var startingTime = (new Date()).getTime();
             while(!BattleHandler.hasEnded() && ((new Date()).getTime() - startingTime) < MAX_EXECUTION_TIME) {
                 BattleHandler.fastForwardAndExecuteNextAction();
             }
+
             return {};
         }
 

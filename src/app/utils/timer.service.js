@@ -6,14 +6,21 @@
 
     function Timer() {
 
+        var artificallySetTime = null;
+
         var factory = {
-            getTime: getTime
+            getTime: getTime,
+            setTime: setTime
         };
 
         return factory;
 
         function getTime() {
-            return (new Date()).getTime();
+            return artificallySetTime || (new Date()).getTime();
+        }
+
+        function setTime(newTime) {
+            artificallySetTime = newTime;
         }
     }
 })();

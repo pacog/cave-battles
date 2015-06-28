@@ -14,11 +14,11 @@
             var service = {
                 addEvent: addEvent,
                 updateBattleInfo: updateBattleInfo,
-                fastForwardToFirstEvent: fastForwardToFirstEvent
+                fastForwardToFirstEvent: fastForwardToFirstEvent,
+                executeFirstElementInList: executeFirstElementInList
             };
             var eventsHappeningNow = new OrderedList({orderBy: 'timeAdded'});
-            var scheduledEvents = new OrderedList({orderBy: 'scheduledFor'}); //TODO converto to class that handles all
-            var recurringEvents = new OrderedList({orderBy: 'timeAdded'});
+            var scheduledEvents = new OrderedList({orderBy: 'scheduledFor'});
             var currentTimeout = null;
 
             return service;
@@ -49,8 +49,13 @@
                     if(timeToExecute <= 0) {
                         timeToExecute = 0;
                     }
-                    currentTimeout = $timeout(executeFirstElementInList, timeToExecute);
+                    currentTimeout = $timeout(executeFirstElementInListAndReschedule, timeToExecute);
                 }
+            }
+
+            function executeFirstElementInListAndReschedule() {
+                executeFirstElementInList();
+                resetScheduleTimeout();
             }
 
             function executeFirstElementInList() {
@@ -62,11 +67,10 @@
                 }
                 scheduledEvents.firstElement.element.execute();
                 scheduledEvents.pop();
-                resetScheduleTimeout();
             }
 
             function fastForwardToFirstEvent() {
-                debugger;
+                Timer.setTime(scheduledEvents.firstElement.element.scheduledFor);
             }
         }
     ]);
