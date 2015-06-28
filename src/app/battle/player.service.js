@@ -27,6 +27,10 @@
 
                 isAI: function() {
                     return this.type === TYPE_AI;
+                },
+
+                getAI: function() {
+                    return this.typeOfAI;
                 }
 
             };

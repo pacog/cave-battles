@@ -3,13 +3,12 @@
 
     angular.module('caveBattles.actions.plan-ia-scheduled', [
         'caveBattles.utils.timer',
-        'caveBattles.simple-ai',
         'caveBattles.battle-model',
         'caveBattles.battle-events'
     ])
         .factory('PlanAIActionScheduled', PlanAIActionScheduled);
 
-    function PlanAIActionScheduled(Timer, BattleModel, SimpleAI, BattleEvents) {
+    function PlanAIActionScheduled(Timer, BattleModel, BattleEvents) {
 
         var PlanAIActionScheduledClass = function(params) {
             this.init(params);
@@ -34,7 +33,8 @@
 
             angular.forEach(BattleModel.model.players, function(player) {
                 if(player.isAI()) {
-                    var newAction = SimpleAI.getNextAction(player, BattleModel.model.nodes);
+
+                    var newAction = player.getAI().getNextAction(player, BattleModel.model.nodes);
                     if(newAction) { //TODO: create empty action to avoid this if
                         newAction.params.scheduler = self.scheduler;
                         self.scheduler.addEvent(newAction.name, newAction.params);
