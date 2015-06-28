@@ -5,12 +5,13 @@
     left: 0;
     right: 0;
     text-align: center;
-    color: $palette-contrast-2;
-    background: $palette-base;
+    color: $whitish;
+    background: $blackish;
 }
 .main-title {
-    font-size: 40px;
-    margin: 40px;
+    font-size: 80px;
+    margin: 2*$grid-l;
+    color: $red-orange;
 }
 .main-screen-battle-config {
     display: flex;
@@ -23,7 +24,16 @@
         flex: 1;
     }
 }
-.main-play-button {
-    display: block;
-    margin: 40px;
+
+.main-play-button-container {
+    margin: 2*$grid-l;
+    text-align: center;
+}
+    .main-play-button {
+        font-size: 2*$grid-l;
+    }
+.main-go-to-trainer-button {
+    position: absolute;
+    bottom: $grid-m;
+    right: $grid-m;
 }

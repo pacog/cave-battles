@@ -6,7 +6,7 @@
         margin-right: $grid-s;
         padding: $grid-s $grid-m;
         font-size: $grid-l;
-        background: $palette-base-2;
+        width: 2*$grid-l;
     }
 
     .player-selector-type {
@@ -15,10 +15,12 @@
 
         .player-selector-item {
             display: inline-block;
+            margin-left: $grid-s;
         }
             .player-selector-button {
                 width: auto;
+                opacity: 0.7;
                 &.is-selected {
-                    background: $palette-base-3;
+                    opacity: 1;
                 }
             }

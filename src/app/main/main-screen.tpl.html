@@ -8,9 +8,12 @@
             <map-picker chosen-map='vm.chosenMap'></map-picker>
             <player-picker ng-if='vm.chosenMap' map='vm.chosenMap' chosen-players='vm.chosenPlayers'></player-picker>
         </div>
-        <button class='button main-play-button' ng-disabled='!vm.canBePlayed()' ng-click='vm.play()'>Play!</button>
 
-        <button class='button' ng-click='vm.goToAITrainer()'>Go to AI trainer</button>
+        <div class='main-play-button-container'>
+            <button class='button main-play-button' ng-disabled='!vm.canBePlayed()' ng-click='vm.play()'>Play!</button>
+        </div>
+
+        <button class='button main-go-to-trainer-button' ng-click='vm.goToAITrainer()'>Go to AI trainer</button>
     </div>
 
     <battle-view ng-if='vm.state === vm.states.BATTLE'></battle-view>

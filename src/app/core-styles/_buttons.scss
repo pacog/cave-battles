@@ -5,11 +5,14 @@
     text-align: left;
     width: 300px;
     font-size: $grid-l;
-    background: $palette-base-2;
+    background: rgba($blackish, 0.1);
     cursor: pointer;
-    color: $palette-contrast;
+    color: $red-orange;
+    text-align: center;
+    border: 2px solid $red-orange;
+    font-family: '28_days_laterregular' 'Helvetica';
     &:hover {
-        background: $palette-base-3;
+        color: $whitish;
     }
 
     &[disabled=disabled] {
