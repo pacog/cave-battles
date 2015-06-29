@@ -3,11 +3,12 @@
 
     angular.module('caveBattles.ai', [
         'caveBattles.simple-ai',
-        'caveBattles.not-so-simple-ai'
+        'caveBattles.not-so-simple-ai',
+        'caveBattles.totally-random-ai'
     ])
         .factory('AI', AI);
 
-    function AI(SimpleAI, NotSoSimpleAI) {
+    function AI(TotallyRandomAI, SimpleAI, NotSoSimpleAI) {
         var factory = {
             getAIs: getAIs
         };
@@ -15,7 +16,7 @@
         return factory;
 
         function getAIs() {
-            return [SimpleAI, NotSoSimpleAI];
+            return [TotallyRandomAI, SimpleAI, NotSoSimpleAI];
         }
     }
 })();

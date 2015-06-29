@@ -1,8 +1,10 @@
-<map-picker chosen-map='vm.chosenMap'></map-picker>
-<player-picker ng-if='vm.chosenMap' map='vm.chosenMap' chosen-players='vm.chosenPlayers'></player-picker>
+<div class='ai-trainer'>
+    <map-picker chosen-map='vm.chosenMap'></map-picker>
+    <player-picker ng-if='vm.chosenMap' map='vm.chosenMap' chosen-players='vm.chosenPlayers'></player-picker>
 
-<button class='button' ng-click='vm.runTrainer()'>Run!</button>
+    <button class='button' ng-click='vm.runTrainer()'>Run!</button>
 
-<ul>
-    <li ng-repeat='result in vm.results'>{{result.winner.number || 'No winner'}} - {{result.runningTime/1000 | number:3}}ms</li>
-</ul>
+    <ul>
+        <li ng-repeat='result in vm.results'>{{result.winner.number || 'No winner'}} - {{result.runningTime/1000 | number:3}}ms</li>
+    </ul>
+</div>

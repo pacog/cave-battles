@@ -1,13 +1,13 @@
 'use strict';
 (function() {
-    angular.module('caveBattles.node', ['ngLodash'])
+    angular.module('caveBattles.node', [
+        'ngLodash',
+        'caveBattles.battle.constants'
+    ])
 
-    .factory('Node', ['lodash',
+    .factory('Node', ['lodash', 'MAX_FORCE_PER_NODE', 'INCREMENT_PER_FILL', 'DEFAULT_NODE_STRENGTH',
 
-        function(_) {
-
-            var INCREMENT_PER_FILL = 1;
-            var MAX_FORCE = 50;
+        function(_, MAX_FORCE_PER_NODE, INCREMENT_PER_FILL, DEFAULT_NODE_STRENGTH) {
 
             var NodeClass = function(options, battleModel) {
                 _.assign(this, options);
@@ -19,7 +19,7 @@
 
             NodeClass.prototype = {
 
-                DEFAULT_NODE_STRENGTH: 10,
+                DEFAULT_NODE_STRENGTH: DEFAULT_NODE_STRENGTH,
 
                 fillNode: function() {
                     if(!!this.currentOwner) {
@@ -69,6 +69,77 @@
                     return false;
                 },
 
+                isEmpty: function() {
+                    return !this.currentOwner;
+                },
+
+                belongsToPlayer: function(player) {
+                    return this.currentOwner === player;
+                },
+
+                canBeConqueredWithForce: function(player, force) {
+                    if(player === this.currentOwner) {
+                        return true;
+                    } else if (player === this.partialOwner) {
+                        //Army's player already partial owner
+                        if(force >= (this.DEFAULT_NODE_STRENGTH - this.ownerStrength)) {
+                            return true;
+                        }
+                    } else if(!this.currentOwner && !this.partialOwner) {
+                        if(force >= this.DEFAULT_NODE_STRENGTH) {
+                            return true;
+                        }
+                    } else if(!!this.currentOwner && (this.currentOwner !== player)) {
+                        if(force > this.ownerStrength) {
+                            return true;
+                        }
+                    } else if(!!this.partialOwner && (this.partialOwner !== player)) {
+                        if(force > this.ownerStrength) {
+                            return true;
+                        }
+                    }
+                    return false;
+                },
+
+                isFull: function() {
+                    if(!!this.currentOwner) {
+                        return this.ownerStrength >= MAX_FORCE_PER_NODE;
+                    }
+                    return false;
+                },
+
+                getEnemiesAround: function(player, nodes) {
+                    var connectedNodes = this.getNodesAround(nodes);
+                    var enemiesAround = 0;
+                    for(var i=0; i<connectedNodes.length; i++) {
+                        if(!connectedNodes[i].isEmpty() && !connectedNodes[i].belongsToPlayer(player)) {
+                            enemiesAround++;
+                        }
+                    }
+                    return enemiesAround;
+                },
+
+                getEmptyNodesAround: function(nodes) {
+                    var connectedNodes = this.getNodesAround(nodes);
+                    var emptyNodesAround = 0;
+                    for(var i=0; i<connectedNodes.length; i++) {
+                        if(connectedNodes[i].isEmpty()) {
+                            emptyNodesAround++;
+                        }
+                    }
+                    return emptyNodesAround;
+                },
+
+                getNodesAround: function(nodes) {
+                    var result = [];
+                    for(var nodeId in nodes) {
+                        if(this.canReachNode(nodes[nodeId])) {
+                            result.push(nodes[nodeId]);
+                        }
+                    }
+                    return result;
+                },
+
                 updateCanBeReachedBySelectedNode: function(node) {
                     this.canBeReachedBySelectedNode = false;
                     if(node && this.canReachNode(node)) {
@@ -114,7 +185,7 @@
                 },
 
                 _setOwnerStrength: function(newStrength) {
-                    this.ownerStrength = Math.min(newStrength, MAX_FORCE);
+                    this.ownerStrength = Math.min(newStrength, MAX_FORCE_PER_NODE);
                 }
             };
 

@@ -3,13 +3,14 @@
 
     angular.module('caveBattles.not-so-simple-ai', [
         'caveBattles.battle-actions-factory',
-        'caveBattles.battle-events'
+        'caveBattles.battle-events',
+        'caveBattles.battle.constants'
     ])
         .factory('NotSoSimpleAI', NotSoSimpleAIService);
 
-    NotSoSimpleAIService.$inject = ['BattleEvents'];
+    NotSoSimpleAIService.$inject = ['BattleEvents', 'DEFAULT_NODE_STRENGTH'];
 
-    function NotSoSimpleAIService(BattleEvents) {
+    function NotSoSimpleAIService(BattleEvents, DEFAULT_NODE_STRENGTH) {
         var factory = {
             name: 'Not So Simple AI',
             getNextAction: getNextAction
@@ -18,8 +19,12 @@
 
         function getNextAction(player, nodes) {
             var possibleActions = getAllPossibleActions(nodes, player);
-
-            return selectActionFromPossibleActions(possibleActions);
+            var bestAction = selectActionFromPossibleActions(possibleActions);
+            if(bestAction) {
+                return bestAction.action;
+            } else {
+                return undefined;
+            }
         }
 
         function getAllPossibleActions(nodes, player) {
@@ -39,23 +44,73 @@
         }
 
         function selectActionFromPossibleActions(possibleActions) {
-            var index = 0;
-            if(possibleActions.length > 1) {
-                index = Math.floor(Math.random()*possibleActions.length);
+            if(possibleActions.length > 0) {
+                var bestAction = possibleActions[0];
+                for(var i=1; i< possibleActions.length; i++) {
+                    if(possibleActions[i].goodness > bestAction.goodness) {
+                        bestAction = possibleActions[i];
+                    }
+                }
+                if(bestAction.goodness > 0) {
+                    return bestAction;
+                }
             }
-            return possibleActions[index];
+            return undefined;
         }
 
         function getAllActionsFromNode(node, nodes, player) {
             var allActions = [];
 
             angular.forEach(nodes, function(otherNode) {
-                if(node.canReachNode(otherNode) && !isNodeFromPlayer(otherNode, player) && node.ownerStrength > 20) {
-                    allActions.push(getMoveAction(node, otherNode));
+                if(node.canReachNode(otherNode) && node.ownerStrength > DEFAULT_NODE_STRENGTH) {
+                    allActions.push({
+                        goodness: getGoodnessOfMove(node, otherNode, player, nodes),
+                        action: getMoveAction(node, otherNode)
+                    });
                 }
             });
 
             return allActions;
+        }
+
+        function getGoodnessOfMove(originNode, destinationNode, player, nodes) {
+            var result = 0;
+            if(destinationNode.isEmpty()) {
+                //destinationNode is empty
+                if(destinationNode.canBeConqueredWithForce(player, originNode.ownerStrength)) {
+                    if(originNode.getEnemiesAround(player, nodes)) {
+                        if(originNode.ownerStrength > 3*DEFAULT_NODE_STRENGTH) {
+                            result = 70;
+                        } else {
+                            result = -50;
+                        }
+                    } else {
+                        result = 100;
+                    }
+                } else {
+                    result = -100;
+                }
+            } else if(destinationNode.belongsToPlayer(player)) {
+                //destinationNode is own node
+                if(originNode.isFull() && !destinationNode.isFull()) {
+                    result = 200;
+                }
+                if(!originNode.getEnemiesAround(player, nodes) && destinationNode.getEnemiesAround(player, nodes)) {
+                    result = 30;
+                }
+                if(!originNode.getEmptyNodesAround(nodes) && destinationNode.getEmptyNodesAround(nodes)) {
+                    result = 20;
+                }
+                //TODO: take into account armies going
+            } else {
+                //destinationNode is enemy
+                if(destinationNode.canBeConqueredWithForce(player, originNode.ownerStrength)) {
+                    result = 50;
+                } else {
+                    result = -200;
+                }
+            }
+            return result;
         }
 
         function getMoveAction(originNode, destinationNode) {
