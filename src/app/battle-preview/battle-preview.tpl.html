@@ -1,0 +1,11 @@
+<div class='battle-preview'>
+    <div ng-if='!vm.map'>Please select a map</div>
+    <div ng-if='vm.map'>
+        <div ng-repeat='node in vm.battleInfo.nodes'>
+            <node node-info='node'></node>
+        </div>
+        <div ng-repeat='tunnel in vm.battleInfo.tunnels'>
+            <tunnel tunnel-info='tunnel'></tunnel>
+        </div>
+    </div>
+</div>

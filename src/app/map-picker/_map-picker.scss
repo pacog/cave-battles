@@ -2,6 +2,7 @@
     
 }
     .map-picker-button {
+        width: 150px;
         margin-bottom: $grid-s;
         opacity: $default-opacity-not-selected;
         .is-selected & {

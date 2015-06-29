@@ -24,9 +24,12 @@
 }
 .main-screen-battle-config {
     display: flex;
-    max-width: 650px;
+    max-width: 950px;
     margin: 0 auto;
     map-picker {
+        flex: 1;
+    }
+    battle-preview {
         flex: 1;
     }
     player-picker {

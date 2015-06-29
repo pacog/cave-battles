@@ -1,0 +1,20 @@
+$preview-node-size: 3*$grid-m;
+$preview-tunnel-width: $grid-m;
+.battle-preview {
+    border: 2px solid $red-orange;
+    width: 300px;
+    height: 300px;
+    position: relative;
+
+    .node {
+        @include node($preview-node-size);
+        margin-left: -$preview-node-size/2;
+        margin-top: -$preview-node-size/2;
+        cursor: default;
+    }
+
+    .tunnel {
+        height: $preview-tunnel-width;
+        margin-top: -($preview-tunnel-width/2);
+    }
+}
