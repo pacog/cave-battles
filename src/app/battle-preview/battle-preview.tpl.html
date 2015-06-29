@@ -4,8 +4,17 @@
         <div ng-repeat='node in vm.battleInfo.nodes'>
             <node node-info='node'></node>
         </div>
+
         <div ng-repeat='tunnel in vm.battleInfo.tunnels'>
             <tunnel tunnel-info='tunnel'></tunnel>
         </div>
+
+        <div ng-repeat='player in vm.playersToShow'>
+            <div
+                class='battle-preview-player battle-preview-player-{{player.number}}'
+                ng-style='{"top": player.position.y + "%", "left": player.position.x + "%"}'
+                ng-if='player.type !== "none"'>{{player.number}}</div>
+        </div>
+        
     </div>
 </div>

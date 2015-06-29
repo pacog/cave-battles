@@ -1,5 +1,7 @@
 $preview-node-size: 3*$grid-m;
 $preview-tunnel-width: $grid-m;
+$preview-player-size: 4*$grid-m;
+
 .battle-preview {
     border: 2px solid $red-orange;
     width: 300px;
@@ -18,3 +20,22 @@ $preview-tunnel-width: $grid-m;
         margin-top: -($preview-tunnel-width/2);
     }
 }
+
+    .battle-preview-player {
+        @include node($preview-player-size);
+        margin-left: -$preview-player-size/2;
+        margin-top: -$preview-player-size/2;
+        z-index: 100;
+    }
+        .battle-preview-player-1 {
+            background: $player-1-base;
+        }
+        .battle-preview-player-2 {
+            background: $player-2-base;
+        }
+        .battle-preview-player-3 {
+            background: $player-3-base;
+        }
+        .battle-preview-player-4 {
+            background: $player-4-base;
+        }
