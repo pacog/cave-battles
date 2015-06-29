@@ -5,9 +5,23 @@
     .player-selector-number {
         margin-right: $grid-s;
         padding: $grid-s $grid-m;
-        font-size: $grid-l;
+        font-size: 2*$grid-l;
         width: 2*$grid-l;
-        text-align: left;
+        text-align: right;
+        height: $grid-l;
+
+    }
+    .player-selector-number-1 {
+        background: $player-1-base;
+    }
+    .player-selector-number-2 {
+        background: $player-2-base;
+    }
+    .player-selector-number-3 {
+        background: $player-3-base;
+    }
+    .player-selector-number-4 {
+        background: $player-4-base;
     }
 
     .player-selector-type {

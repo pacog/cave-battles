@@ -26,20 +26,15 @@
     display: flex;
     max-width: 950px;
     margin: 0 auto;
-    map-picker {
-        flex: 1;
-    }
+
     battle-preview {
-        flex: 1;
-    }
-    player-picker {
         flex: 1;
     }
 }
 
 .main-play-button-container {
     margin: 2*$grid-l;
-    text-align: center;
+    text-align: right;
 }
     .main-play-button {
         font-size: 2*$grid-l;
