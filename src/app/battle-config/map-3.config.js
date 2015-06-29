@@ -2,70 +2,70 @@
     'use strict';
     angular.module('caveBattles.maps.map3', [])
         .constant('MAP3' , {
-            name: 'Map 3',
+            name: 'The pyramid',
             map: {
                 nodes: [{
                     id: '1',
                     position: {
                         x: 50,
-                        y: 10
+                        y: 20
                     },
                     initialNode: true
                 },{
                     id: '2',
                     position: {
                         x: 20,
-                        y: 70
+                        y: 80
                     },
                     initialNode: true
                 },{
                     id: '3',
                     position: {
                         x: 80,
-                        y: 70
+                        y: 80
                     },
                     initialNode: true
                 },{
                     id: '4',
                     position: {
                         x: 40,
-                        y: 30
+                        y: 40
                     }
                 },{
                     id: '5',
                     position: {
                         x: 60,
-                        y: 30
+                        y: 40
                     }
                 },{
                     id: '6',
                     position: {
                         x: 50,
-                        y: 50
+                        y: 60
                     }
                 },{
                     id: '7',
                     position: {
                         x: 30,
-                        y: 50
+                        y: 60
                     }
                 },{
                     id: '8',
                     position: {
                         x: 40,
-                        y: 70
+                        y: 80
                     }
                 },{
                     id: '9',
                     position: {
                         x: 60,
-                        y: 70
+                        y: 80
                     }
                 },{
                     id: '10',
                     position: {
                         x: 70,
-                        y: 50
+                        y: 60
                     }
                 }],
                 tunnels: [{

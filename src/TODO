@@ -1,8 +1,13 @@
+MVP
+- Config selector -> Directive
+- Better AI Trainer style and explanation
+- Improve other AI
+- Victory modal
+
+
 - Color grunge circle on top of player number
-- Show map preview and player numbers on it
 - Transparent title with some cool background
 - Pause and main menu buttons
-- Victory modal
 - Visuals for gameplay
 
 - Abstract classes for recurring events and general battle actions

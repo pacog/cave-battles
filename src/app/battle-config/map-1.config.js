@@ -2,7 +2,7 @@
     'use strict';
     angular.module('caveBattles.maps.map1', [])
         .constant('MAP1' , {
-            name: 'Map 1',
+            name: 'Square Battle',
             map: {
                 nodes: [{
                     id: '1',
